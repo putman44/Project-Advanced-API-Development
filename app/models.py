@@ -26,7 +26,7 @@ class Customer(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(255), nullable=False)
     email: Mapped[str] = mapped_column(String(360), nullable=False, unique=True)
-    phone: Mapped[str] = mapped_column(String(20), nullable=False)
+    phone: Mapped[str] = mapped_column(String(20), nullable=False, unique=True)
 
     service_tickets: Mapped[List["ServiceTicket"]] = relationship(
         back_populates="customer"
@@ -39,8 +39,8 @@ class Mechanic(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(255), nullable=False)
     email: Mapped[str] = mapped_column(String(360), nullable=False, unique=True)
-    phone: Mapped[str] = mapped_column(String(20), nullable=False)
-    salary: Mapped[int] = mapped_column(nullable=False)
+    phone: Mapped[str] = mapped_column(String(20), nullable=False, unique=True)
+    salary: Mapped[float] = mapped_column(nullable=False)
 
     service_tickets: Mapped[List["ServiceTicket"]] = relationship(
         secondary=service_mechanics, back_populates="mechanics"
