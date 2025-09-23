@@ -10,18 +10,15 @@ from . import customers_bp
 def create_customer():
     try:
         customer_data = customer_schema.load(request.json)
+        new_customer = Customer(**customer_data)
+        db.session.add(new_customer)
+        db.session.commit()
+        return customer_schema.jsonify(new_customer), 201
     except ValidationError as e:
         return jsonify(e.messages), 400
-
-    query = select(Customer).where(Customer.email == customer_data["email"])
-    existing_customer = db.session.execute(query).scalars().all()
-    if existing_customer:
-        return jsonify({"error": "Email already associated with an account."}), 400
-
-    new_member = Customer(**customer_data)
-    db.session.add(new_member)
-    db.session.commit()
-    return customer_schema.jsonify(new_member), 201
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 400
 
 
 @customers_bp.route("/", methods=["GET"])
@@ -44,22 +41,20 @@ def get_customer(customer_id):
 @customers_bp.route("/<int:customer_id>", methods=["PUT"])
 def update_customer(customer_id):
     customer = db.session.get(Customer, customer_id)
-
     if not customer:
-        return jsonify({"error": "Customer not found."}), 404
+        return jsonify({"error": "Customer not found"}), 404
 
     try:
-        customer_data = customer_schema.load(request.json)
+        data = customer_schema.load(request.json, partial=True)
+        for key, value in data.items():
+            setattr(customer, key, value)
+        db.session.commit()
+        return customer_schema.jsonify(customer), 200
     except ValidationError as e:
         return jsonify(e.messages), 400
-
-    allowed_fields = ["name", "email", "phone"]
-    for key in allowed_fields:
-        if key in customer_data:
-            setattr(customer, key, customer_data[key])
-
-    db.session.commit()
-    return customer_schema.jsonify(customer), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 400
 
 
 @customers_bp.route("/<int:customer_id>", methods=["DELETE"])
