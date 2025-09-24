@@ -58,9 +58,9 @@ pip install Flask Flask-SQLAlchemy Flask-Marshmallow mysql-connector-python mars
 |--------|-----------------------|---------------------|
 | POST   | /customers            | Create a customer   |
 | GET    | /customers            | List all customers  |
-| GET    | /customers/<id>       | Get a customer      |
-| PUT    | /customers/<id>       | Update a customer   |
-| DELETE | /customers/<id>       | Delete a customer   |
+| GET    | /customers/&lt;int:customer_id&gt;       | Get a customer      |
+| PUT    | /customers/&lt;int:customer_id&gt;       | Update a customer   |
+| DELETE | /customers/&lt;int:customer_id&gt;       | Delete a customer   |
 
 ### Mechanics
 
@@ -68,9 +68,9 @@ pip install Flask Flask-SQLAlchemy Flask-Marshmallow mysql-connector-python mars
 |--------|------------------|---------------------|
 | POST   | /mechanics       | Create a mechanic   |
 | GET    | /mechanics       | List all mechanics  |
-| GET    | /mechanics/<id>  | Get a mechanic      |
-| PUT    | /mechanics/<id>  | Update a mechanic   |
-| DELETE | /mechanics/<id>  | Delete a mechanic   |
+| GET    | /mechanics/&lt;int:mechanic_id&gt;  | Get a mechanic      |
+| PUT    | /mechanics/&lt;int:mechanic_id&gt;  | Update a mechanic   |
+| DELETE | /mechanics/&lt;int:mechanic_id&gt;  | Delete a mechanic   |
 
 ### Service Tickets
 
@@ -78,6 +78,6 @@ pip install Flask Flask-SQLAlchemy Flask-Marshmallow mysql-connector-python mars
 |--------|-------------------------|-------------------------|
 | POST   | /service_tickets        | Create a service ticket |
 | GET    | /service_tickets        | List all service tickets|
-| GET    | /service_tickets/<id>   | Get a service ticket    |
-| PUT    | /service_tickets/<id>   | Update a service ticket |
-| DELETE | /service_tickets/<id>   | Delete a service ticket |
+| GET    | /service_tickets/&lt;int:service_ticket_id&gt;   | Get a service ticket    |
+| PUT    | /service_tickets/&lt;int:service_ticket_id&gt;   | Update a service ticket |
+| DELETE | /service_tickets/&lt;int:service_ticket_id&gt;   | Delete a service ticket |
