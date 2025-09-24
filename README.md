@@ -48,8 +48,11 @@ source venv/bin/activate  # Mac/Linux
 venv\Scripts\activate     # Windows
 
 pip install Flask Flask-SQLAlchemy Flask-Marshmallow mysql-connector-python marshmallow-sqlalchemy
+```
 
 ## Entity-Relationship-Diagram
+
+![Entity Relationship Diagram](Mechanic_Erd.png)
 
 ## API Endpoints
 
