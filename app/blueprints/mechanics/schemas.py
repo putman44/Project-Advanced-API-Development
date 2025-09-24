@@ -2,11 +2,14 @@ from marshmallow import pre_load, validates
 from app.extensions import ma
 from app.models import Mechanic
 from app.functions import strip_input, validate_name, validate_email, validate_phone
+from app.blueprints.service_tickets.schemas import ServiceTicketSchema
 
 
 class MechanicSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Mechanic
+
+    service_tickets = ma.Nested(ServiceTicketSchema, many=True, dump_only=True)
 
     @pre_load
     def preprocess(self, data, **kwargs):
