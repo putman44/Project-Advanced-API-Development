@@ -9,7 +9,7 @@ A RESTful API for managing users, orders, and products built with Flask, SQLAlch
 1. [Features](#features)  
 2. [Tech Stack](#tech-stack)  
 3. [Installation](#installation)  
-4. [Entity-Relationship Diagram](#entity-relationship-diagram)  
+4. [Entity-Relationship-Diagram](#entity-relationship-diagram)  
 5. [Database Models](#database-models)  
 6. [API Endpoints](#api-endpoints)  
 7. [Example Requests & Responses](#example-requests--responses)  
@@ -49,8 +49,7 @@ venv\Scripts\activate     # Windows
 
 pip install Flask Flask-SQLAlchemy Flask-Marshmallow mysql-connector-python marshmallow-sqlalchemy
 
-## Entity-Relationship Diagram
-![ERD](Mechanic_Erd.png)
+## Entity-Relationship-Diagram
 
 ## API Endpoints
 
