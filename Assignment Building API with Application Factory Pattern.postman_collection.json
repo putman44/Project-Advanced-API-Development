@@ -1,0 +1,406 @@
+{
+	"info": {
+		"_postman_id": "08e75938-166b-45fa-85dd-2362937a766e",
+		"name": "Assignment Building API with Application Factory Pattern",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26152017",
+		"_collection_link": "https://me3333-7406.postman.co/workspace/Flask-api~c2c8a3c0-f20d-4aff-aef1-70b001436b33/collection/26152017-08e75938-166b-45fa-85dd-2362937a766e?action=share&source=collection_link&creator=26152017"
+	},
+	"item": [
+		{
+			"name": "Customers",
+			"item": [
+				{
+					"name": "Get Customers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/customers",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Customer",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/customers/1",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"customers",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Customer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"asdf@domain.coms\",\n    \"name\":\"Phil\",\n    \"phone\": \"333-333-3332\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/customers",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Customer",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"sweet@domain.coms\",\n    \"phone\":\"222-222-2222\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/customers/1",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"customers",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Customer",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \n}"
+						},
+						"url": {
+							"raw": "{{baseURL}}/customers/2",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"customers",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Mechanics",
+			"item": [
+				{
+					"name": "Get Mechanics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/mechanics",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"mechanics"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Mechanic",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/mechanics/1",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"mechanics",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Mechanic",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"js@hot.com\",\n    \"name\":\"Jerrrrrrrryyyy\",\n    \"phone\": \"333-333-0000\",\n    \"salary\": \"23000\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/mechanics",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"mechanics"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Mechanic",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"cool@sick.com\",\n    \"name\":\"barry\",\n    \"phone\": \"233-111-0000\",\n    \"salary\": \"1000\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/mechanics/3",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"mechanics",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Mechanic",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"cool@sick.com\",\n    \"name\":\"barry\",\n    \"phone\": \"233-111-0000\",\n    \"salary\": \"1000\"\n}"
+						},
+						"url": {
+							"raw": "{{baseURL}}/mechanics/4",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"mechanics",
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Service Tickets",
+			"item": [
+				{
+					"name": "Create Service Ticket",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"customer_id\": \"1\",\n        \"VIN\": \"1HGCM82633A123456\",\n        \"service_date\": \"2023-10-01\",\n        \"service_desc\": \"Oil change and tire rotation\",\n       \"mechanic_ids\": [3]\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/service_tickets",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"service_tickets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Service Tickets",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"customer_id\": \"1\",\n        \"VIN\": \"1HGCM82633A123456\",\n        \"service_date\": \"2023-10-01\",\n        \"service_desc\": \"Oil change and tire rotation\",\n       \"mechanic_ids\": [3]\n    }"
+						},
+						"url": {
+							"raw": "{{baseURL}}/service_tickets",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"service_tickets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Service Ticket",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"customer_id\": \"1\",\n        \"VIN\": \"1HGCM82633A123456\",\n        \"service_date\": \"2023-10-01\",\n        \"service_desc\": \"Oil change and tire rotation\",\n       \"mechanic_ids\": [3]\n    }"
+						},
+						"url": {
+							"raw": "{{baseURL}}/service_tickets/1",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"service_tickets",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Service Ticket",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"customer_id\": \"1\",\n        \"VIN\": \"1HGCM82633A123456\",\n        \"service_date\": \"2023-10-01\",\n        \"service_desc\": \"Oil change and tire rotation\",\n       \"mechanic_ids\": [3]\n    }"
+						},
+						"url": {
+							"raw": "{{baseURL}}/service_tickets/1",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"service_tickets",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Service Ticket",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"customer_id\": \"1\",\n        \"VIN\": \"1HGCM82633A123456\",\n        \"service_date\": \"2023-10-01\",\n        \"service_desc\": \"\",\n       \"mechanic_ids\": [3]\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/service_tickets/1",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"service_tickets",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": ""
+		}
+	]
+}
