@@ -12,11 +12,6 @@ A RESTful API for managing users, orders, and products built with Flask, SQLAlch
 4. [Entity-Relationship-Diagram](#entity-relationship-diagram)  
 5. [Database Models](#database-models)  
 6. [API Endpoints](#api-endpoints)  
-7. [Example Requests & Responses](#example-requests--responses)  
-
-9. [Running the App](#running-the-app)  
-10. [Contributing](#contributing)  
-11. [License](#license)  
 
 ---
 
@@ -56,23 +51,33 @@ pip install Flask Flask-SQLAlchemy Flask-Marshmallow mysql-connector-python mars
 
 ## API Endpoints
 
+
 ### Customers
-POST   /customers                    - Create a customer
-GET    /customers                    - List all customers
-GET    /customers/<id>               - Get a customer
-PUT    /customers/<id>               - Update a customer
-DELETE /customers/<id>               - Delete a customer
+
+| Method | Endpoint              | Description         |
+|--------|-----------------------|---------------------|
+| POST   | /customers            | Create a customer   |
+| GET    | /customers            | List all customers  |
+| GET    | /customers/<id>       | Get a customer      |
+| PUT    | /customers/<id>       | Update a customer   |
+| DELETE | /customers/<id>       | Delete a customer   |
 
 ### Mechanics
-POST   /mechanics                 - Create a mechanic
-GET    /mechanics                 - List all mechanics
-GET    /mechanics/<id>            - Get a mechanic
-PUT    /mechanics/<id>            - Update a mechanic
-DELETE /mechanics/<id>            - Delete a mechanic
+
+| Method | Endpoint         | Description         |
+|--------|------------------|---------------------|
+| POST   | /mechanics       | Create a mechanic   |
+| GET    | /mechanics       | List all mechanics  |
+| GET    | /mechanics/<id>  | Get a mechanic      |
+| PUT    | /mechanics/<id>  | Update a mechanic   |
+| DELETE | /mechanics/<id>  | Delete a mechanic   |
 
 ### Service Tickets
-POST   /service_tickets                          - Create a service ticket
-GET    /service_tickets                          - List all service tickets
-GET    /service_tickets/<id>                     - Get a service ticket
-PUT    /service_tickets/<id>                     - Update a service ticket
-DELETE /service_tickets/<id>                     - Delete a service ticket
+
+| Method | Endpoint                | Description             |
+|--------|-------------------------|-------------------------|
+| POST   | /service_tickets        | Create a service ticket |
+| GET    | /service_tickets        | List all service tickets|
+| GET    | /service_tickets/<id>   | Get a service ticket    |
+| PUT    | /service_tickets/<id>   | Update a service ticket |
+| DELETE | /service_tickets/<id>   | Delete a service ticket |
