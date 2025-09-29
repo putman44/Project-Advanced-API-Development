@@ -4,9 +4,11 @@ from marshmallow import ValidationError
 from sqlalchemy import select
 from app.models import Mechanic, db
 from . import mechanics_bp
+from app.extensions import limiter, cache
 
 
 @mechanics_bp.route("/", methods=["POST"])
+@limiter.limit("5 per day")
 def create_mechanic():
     try:
         mechanic_data = mechanic_schema.load(request.json)
@@ -22,6 +24,8 @@ def create_mechanic():
 
 
 @mechanics_bp.route("/", methods=["GET"])
+@limiter.limit("100 per minute")
+@cache.cached(timeout=300)
 def get_mechanics():
     query = select(Mechanic)
     mechanics = db.session.execute(query).scalars().all()
@@ -30,6 +34,8 @@ def get_mechanics():
 
 
 @mechanics_bp.route("/<int:mechanic_id>", methods=["GET"])
+@limiter.limit("100 per minute")
+@cache.cached(timeout=300)
 def get_mechanic(mechanic_id):
     mechanic = db.session.get(Mechanic, mechanic_id)
 
@@ -39,6 +45,7 @@ def get_mechanic(mechanic_id):
 
 
 @mechanics_bp.route("/<int:mechanic_id>", methods=["PUT"])
+@limiter.limit("20 per hour")
 def update_mechanic(mechanic_id):
     mechanic = db.session.get(Mechanic, mechanic_id)
     if not mechanic:
@@ -58,6 +65,7 @@ def update_mechanic(mechanic_id):
 
 
 @mechanics_bp.route("/<int:mechanic_id>", methods=["DELETE"])
+@limiter.limit("20 per hour")
 def delete_mechanic(mechanic_id):
     mechanic = db.session.get(Mechanic, mechanic_id)
 
