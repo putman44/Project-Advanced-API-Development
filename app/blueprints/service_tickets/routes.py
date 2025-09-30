@@ -92,13 +92,13 @@ def update_service_ticket(user, user_role, ticket_id):
         if not ticket:
             return jsonify({"error": "Service ticket not found"}), 404
 
-        for mechanic_id in data["add_mechanic_ids"]:
+        for mechanic_id in data.get("add_mechanic_ids", []):
             mechanic = db.session.get(Mechanic, mechanic_id)
 
             if mechanic and mechanic not in ticket.mechanics:
                 ticket.mechanics.append(mechanic)
 
-        for mechanic_id in data["remove_mechanic_ids"]:
+        for mechanic_id in data.get("remove_mechanic_ids", []):
             mechanic = db.session.get(Mechanic, mechanic_id)
 
             if mechanic and mechanic in ticket.mechanics:
