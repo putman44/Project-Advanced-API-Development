@@ -12,8 +12,24 @@ class ServiceTicketSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = ServiceTicket
 
+    ticket_id = ma.Int(load_only=True)
     customer_id = ma.Int(required=True)
-    mechanic_ids = ma.List(ma.Int(), required=True, load_only=True)
+    mechanic_ids = ma.List(ma.Int(), required=True)
+
+    mechanics = ma.Nested(
+        "MechanicSchema",
+        many=True,
+        dump_only=True,
+        exclude=[
+            "email",
+            "phone",
+            "salary",
+            "token_version",
+            "role",
+            "password",
+            "user_uuid",
+        ],
+    )
 
     @pre_load
     def preprocess(self, data, **kwargs):
