@@ -36,6 +36,8 @@ class MechanicSchema(ma.SQLAlchemyAutoSchema):
         if not ctx.get("login", False):
             return validate_email(Mechanic, value)
         return value
+        # Prevents AttributeError if the schema context is missing.
+        # Only enforces stricter email checks when creating or updating a customer, not when logging in.
 
     @validates("phone")
     def check_phone(self, value, **kwargs):
