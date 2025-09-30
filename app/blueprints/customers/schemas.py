@@ -1,7 +1,13 @@
 from marshmallow import pre_load, validates
 from app.extensions import ma
 from app.models import Customer
-from app.functions import strip_input, validate_name, validate_email, validate_phone
+from app.functions import (
+    strip_input,
+    validate_name,
+    validate_email,
+    validate_phone,
+    validate_password,
+)
 
 
 class CustomerSchema(ma.SQLAlchemyAutoSchema):
@@ -16,9 +22,17 @@ class CustomerSchema(ma.SQLAlchemyAutoSchema):
     def check_name(self, value, **kwargs):
         return validate_name(value)
 
+    @validates("password")
+    def check_password(self, value, **kwargs):
+        return validate_password(value)
+
     @validates("email")
     def check_email(self, value, **kwargs):
-        return validate_email(Customer, value)
+        # use getattr to prevent AttributeError if context is missing
+        ctx = getattr(self, "context", {}) or {}
+        if not ctx.get("login", False):
+            return validate_email(Customer, value)
+        return value
 
     @validates("phone")
     def check_phone(self, value, **kwargs):
@@ -27,7 +41,8 @@ class CustomerSchema(ma.SQLAlchemyAutoSchema):
 
 customer_schema = CustomerSchema()
 customers_schema = CustomerSchema(many=True)
-
+login_schema = CustomerSchema(exclude=["name", "phone"])
+login_schema.context = {"login": True}
 
 # load_instance = True
 
