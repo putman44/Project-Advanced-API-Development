@@ -5,11 +5,12 @@ app = create_app("DevelopmentConfig")
 # Start virtual environment for Mac
 # python3 -m venv .venv
 # source .venv/bin/activate
-# pip install Flask Flask-SQLAlchemy Flask-Marshmallow mysql-connector-python marshmallow-sqlalchemy Flask-Limiter Flask-Caching alembic
+# pip install Flask Flask-SQLAlchemy Flask-Marshmallow mysql-connector-python marshmallow-sqlalchemy Flask-Limiter Flask-Caching python-jose alembic
 # pip freeze > requirements.txt
 
 
 with app.app_context():
+    # db.drop_all()
     db.create_all()
 
 app.run()
