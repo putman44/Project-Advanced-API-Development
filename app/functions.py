@@ -23,6 +23,12 @@ def validate_name(value, **kwargs):
     return value
 
 
+def validate_password(value, **kwargs):
+    if not value or len(value) < 8:
+        raise ValidationError("Password must be longer than 8 characters.")
+    return value
+
+
 def validate_email(model, value, **kwargs):
     if not EMAIL_REGEX.match(value):
         raise ValidationError(
