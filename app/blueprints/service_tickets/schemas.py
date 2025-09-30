@@ -90,5 +90,15 @@ class ServiceTicketSchema(ma.SQLAlchemyAutoSchema):
         return value
 
 
+class EditServiceTicketSchema(ma.Schema):
+    add_mechanic_ids = ma.List(ma.Int(), required=True)
+    remove_mechanic_ids = ma.List(ma.Int(), required=True)
+
+    class Meta:
+        fields = ("add_mechanic_ids", "remove_mechanic_ids")
+
+
 service_ticket_schema = ServiceTicketSchema()
 service_tickets_schema = ServiceTicketSchema(many=True)
+
+edit_service_ticket_schema = EditServiceTicketSchema()
