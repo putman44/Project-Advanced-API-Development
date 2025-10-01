@@ -1,9 +1,10 @@
-from marshmallow import pre_load, validates, ValidationError
+from marshmallow import ValidationError, pre_load, validates
 from app.extensions import ma
-from app.models import ServiceTicket, Customer, db, Mechanic
+from app.models import ServiceTicket, Customer, Mechanic, db
 from datetime import date
 from app.functions import strip_input
 import re
+from app.blueprints.inventories.schemas import inventories_service_ticket_schema
 
 VIN_REGEX = re.compile(r"^[A-HJ-NPR-Z0-9]{17}$")  # Excludes I, O, Q
 
@@ -15,6 +16,10 @@ class ServiceTicketSchema(ma.SQLAlchemyAutoSchema):
     ticket_id = ma.Int(load_only=True)
     customer_id = ma.Int(required=True)
     mechanic_ids = ma.List(ma.Int(), required=True)
+
+    inventory_links = ma.Nested(
+        inventories_service_ticket_schema, exclude=["service_ticket", "inventory"]
+    )
 
     mechanics = ma.Nested(
         "MechanicSchema",
@@ -45,6 +50,19 @@ class ServiceTicketSchema(ma.SQLAlchemyAutoSchema):
             raise ValidationError("One or more mechanic IDs are invalid")
         return value
 
+    @validates("customer_id")
+    def validate_customer_id(self, value, **kwargs):
+        if not value:
+            raise ValidationError("Customer ID cannot be blank")
+        existing = db.session.query(Customer).filter(Customer.id == value).first()
+        if not existing:
+            raise ValidationError(f"Customer with ID {value} does not exist")
+        return value
+
+    @pre_load
+    def preprocess(self, data, **kwargs):
+        return strip_input(data)
+
     @validates("VIN")
     def validate_vin(self, value, **kwargs):
         if not value:
@@ -54,14 +72,13 @@ class ServiceTicketSchema(ma.SQLAlchemyAutoSchema):
                 "Invalid VIN. Must be 17 characters (letters/digits, no I, O, Q)"
             )
 
-        # Optional uniqueness check
-        # existing = (
-        #     db.session.query(ServiceTicket).filter(ServiceTicket.VIN == value).first()
-        # )
-        # if existing:
-        #     raise ValidationError(f"VIN '{value}' is already registered")
-        # return value
-
+    # Optional uniqueness check
+    # existing = (
+    #     db.session.query(ServiceTicket).filter(ServiceTicket.VIN == value).first()
+    # )
+    # if existing:
+    #     raise ValidationError(f"VIN '{value}' is already registered")
+    # return value
     @validates("service_date")
     def validate_service_date(self, value, **kwargs):
         if not value:
@@ -80,17 +97,8 @@ class ServiceTicketSchema(ma.SQLAlchemyAutoSchema):
             )
         return value
 
-    @validates("customer_id")
-    def validate_customer_id(self, value, **kwargs):
-        if not value:
-            raise ValidationError("Customer ID cannot be blank")
-        existing = db.session.query(Customer).filter(Customer.id == value).first()
-        if not existing:
-            raise ValidationError(f"Customer with ID {value} does not exist")
-        return value
 
-
-class EditServiceTicketSchema(ma.Schema):
+class EditServiceTicketSchema(ServiceTicketSchema):
     add_mechanic_ids = ma.List(ma.Int(), required=True)
     remove_mechanic_ids = ma.List(ma.Int(), required=True)
     VIN = ma.Str()
