@@ -16,7 +16,7 @@ A RESTful API for managing customers, mechanics, inventory parts, and service ti
 
 ## Features
 
-- CRUD operations for customers, mechanics, inventories, and service_tickets.
+- CRUD operations for customers, mechanics, inventories, and service tickets.
 - One-to-many relationships (Customer → ServiceTicket).
 - Many-to-many relationships with extra data (ServiceTicket ↔ Mechanic via ServiceTicketMechanic).
 - Many-to-many relationships (ServiceTicket ↔ Inventory via ServiceTicketInventory).
