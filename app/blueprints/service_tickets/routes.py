@@ -94,7 +94,9 @@ def get_mechanic_with_most_service_tickets():
 @token_required
 @roles_required(["mechanic"])
 def update_service_ticket_part(user, user_role, ticket_id):
+
     try:
+
         ticket_parts_data = inventory_service_ticket_schema.load(request.json)
 
         service_ticket = db.session.get(ServiceTicket, ticket_id)
@@ -102,6 +104,10 @@ def update_service_ticket_part(user, user_role, ticket_id):
             return jsonify({"error": "Service ticket not found"}), 404
 
         part = db.session.get(Inventory, ticket_parts_data["inventory_id"])
+        quantity = ticket_parts_data["quantity_used"]
+        part_name = part.part_name
+        plural = "" if part_name.endswith("s") else "s" if quantity > 1 else ""
+        verb = "was" if quantity == 1 else "were"
         if not part:
             return (
                 jsonify(
@@ -112,7 +118,10 @@ def update_service_ticket_part(user, user_role, ticket_id):
                 400,
             )
         if part.quantity < ticket_parts_data["quantity_used"]:
-            return jsonify({"error": f"Not enough {part.part_name} in inventory"}), 400
+            return (
+                jsonify({"error": f"Not enough {part_name}{plural} in inventory"}),
+                400,
+            )
 
         inventory_link = next(
             (
@@ -136,11 +145,6 @@ def update_service_ticket_part(user, user_role, ticket_id):
         part.quantity -= ticket_parts_data["quantity_used"]
 
         db.session.commit()
-
-        quantity = ticket_parts_data["quantity_used"]
-        part_name = part.part_name
-        plural = "" if part_name.endswith("s") else "s" if quantity > 1 else ""
-        verb = "was" if quantity == 1 else "were"
 
         return (
             jsonify(
