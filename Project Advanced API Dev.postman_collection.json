@@ -1,0 +1,842 @@
+{
+	"info": {
+		"_postman_id": "08e75938-166b-45fa-85dd-2362937a766e",
+		"name": "Project Advanced API Dev",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26152017",
+		"_collection_link": "https://me3333-7406.postman.co/workspace/Flask-api~c2c8a3c0-f20d-4aff-aef1-70b001436b33/collection/26152017-08e75938-166b-45fa-85dd-2362937a766e?action=share&source=collection_link&creator=26152017"
+	},
+	"item": [
+		{
+			"name": "Customers",
+			"item": [
+				{
+					"name": "Create Customer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"asdf@domain.coms\",\n    \"name\":\"Phil\",\n    \"phone\": \"333-333-3332\",\n    \"password\":\"password44\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/customers",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Customer Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"asdf@domain.coms\",\n    \"password\": \"password44\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/customers/login",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"customers",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Customers",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/customers",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Customer",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/customers/1",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"customers",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Customer's Service Tickets",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTkyNDQ2MTQsImlhdCI6MTc1OTI0MTAxNCwic3ViIjoiMSIsInJvbGUiOiJjdXN0b21lciIsInRva2VuX3ZlcnNpb24iOjF9.cGFLO0ldevlPsSzK7Mv4VYXR8I6xIIimvuqbphI-JiY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseURL}}/customers/my-tickets",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"customers",
+								"my-tickets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Customer",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTkyNTA1MjAsImlhdCI6MTc1OTI0NjkyMCwidXNlcl91dWlkIjoiMzhhZmE4MWEtMDgwZi00MDVhLThiMGItMGE0MGNiMWRmOWUyIiwicm9sZSI6ImN1c3RvbWVyIiwidG9rZW5fdmVyc2lvbiI6MX0.4lAGWgVV0mckZlxVVB33SZN5hyTjxL1HSMoaN7DOxS0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n    \"phone\":\"222-222-2222\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/customers",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Customer",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTkyNTA1MjAsImlhdCI6MTc1OTI0NjkyMCwidXNlcl91dWlkIjoiMzhhZmE4MWEtMDgwZi00MDVhLThiMGItMGE0MGNiMWRmOWUyIiwicm9sZSI6ImN1c3RvbWVyIiwidG9rZW5fdmVyc2lvbiI6MX0.4lAGWgVV0mckZlxVVB33SZN5hyTjxL1HSMoaN7DOxS0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \n}"
+						},
+						"url": {
+							"raw": "{{baseURL}}/customers",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"customers"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Mechanics",
+			"item": [
+				{
+					"name": "Create Mechanic",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"phil@gmail.com\",\n    \"name\":\"Phil\",\n    \"phone\": \"333-333-3333\",\n    \"salary\": \"23000\",\n    \"password\":\"Phil4444\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/mechanics",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"mechanics"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mechanic Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"phil@gmail.com\",\n    \"password\":\"Phil4444\"\n    \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/mechanics/login",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"mechanics",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Mechanics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/mechanics",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"mechanics"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Mechanic",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/mechanics/1",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"mechanics",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mechanic's Service Tickets",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTkyNTA1NTIsImlhdCI6MTc1OTI0Njk1MiwidXNlcl91dWlkIjoiMDNlOGYyZTEtODkxYi00YzI5LThkZmMtNjAwZTJmZTdmYTljIiwicm9sZSI6Im1lY2hhbmljIiwidG9rZW5fdmVyc2lvbiI6MX0.O8m3SLLnBbDBX4mGN48tvv4LXjMsYm_jJMaiVUyuXao",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/mechanics/my-tickets",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"mechanics",
+								"my-tickets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Mechanic",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTkyNDE2NzIsImlhdCI6MTc1OTIzODA3Miwic3ViIjoiMSIsInJvbGUiOiJtZWNoYW5pYyJ9.NsO3Pe-cqJBOrcsXxo4mAN_kOgq1kWuzkjPL-El3Dmc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \n    \"salary\": \"1000\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/mechanics",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"mechanics"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Mechanic",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTkyNTE1NTksImlhdCI6MTc1OTI0Nzk1OSwidXNlcl91dWlkIjoiMDU0N2VlYzEtODZhMy00NzczLWI5OGEtODg0ZTUzNDMyMjBiIiwicm9sZSI6Im1lY2hhbmljIiwidG9rZW5fdmVyc2lvbiI6MX0.o0H09-TzKU5jNAHhKB1ePOz1inUQtoq9qUFg2nrTOYw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \n}"
+						},
+						"url": {
+							"raw": "{{baseURL}}/mechanics",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"mechanics"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Service Tickets",
+			"item": [
+				{
+					"name": "Create Service Ticket",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTkyNTA1NTIsImlhdCI6MTc1OTI0Njk1MiwidXNlcl91dWlkIjoiMDNlOGYyZTEtODkxYi00YzI5LThkZmMtNjAwZTJmZTdmYTljIiwicm9sZSI6Im1lY2hhbmljIiwidG9rZW5fdmVyc2lvbiI6MX0.O8m3SLLnBbDBX4mGN48tvv4LXjMsYm_jJMaiVUyuXao",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"customer_id\": \"1\",\n        \"VIN\": \"1HGCM82633A123456\",\n        \"service_date\": \"2025-12-12\",\n        \"service_desc\": \"needs new engine\",\n        \"mechanic_ids\": [1]\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/service_tickets",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"service_tickets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Mechanics with most service tickets",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/service_tickets/most-tickets",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"service_tickets",
+								"most-tickets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Service Tickets",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"customer_id\": \"1\",\n        \"VIN\": \"1HGCM82633A123456\",\n        \"service_date\": \"2023-10-01\",\n        \"service_desc\": \"Oil change and tire rotation\",\n       \"mechanic_ids\": [3]\n    }"
+						},
+						"url": {
+							"raw": "{{baseURL}}/service_tickets",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"service_tickets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Service Ticket",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"customer_id\": \"1\",\n        \"VIN\": \"1HGCM82633A123456\",\n        \"service_date\": \"2023-10-01\",\n        \"service_desc\": \"Oil change and tire rotation\",\n       \"mechanic_ids\": [3]\n    }"
+						},
+						"url": {
+							"raw": "{{baseURL}}/service_tickets/3",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"service_tickets",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Service Ticket",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"customer_id\": \"1\",\n        \"VIN\": \"1HGCM82633A123456\",\n        \"service_date\": \"2023-10-01\",\n        \"service_desc\": \"Oil change and tire rotation\",\n       \"mechanic_ids\": [3]\n    }"
+						},
+						"url": {
+							"raw": "{{baseURL}}/service_tickets/3",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"service_tickets",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Service Ticket Info",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTkzNTQ5ODEsImlhdCI6MTc1OTM1MTM4MSwidXNlcl91dWlkIjoiNDU0YTdlMGItNjMwNi00ZmM1LWFmYmQtNGRhZmI4NDg2YzJlIiwicm9sZSI6Im1lY2hhbmljIiwidG9rZW5fdmVyc2lvbiI6MX0.Gz0ITBRXNu5Bpxi_0tvkV7hvaCvPwYJ-Wc9IVaUXx0g",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"VIN\": \"1HGCM82633A123456\",\n    \"service_date\": \"2025-12-1\",\n    \"service_desc\": \"needs new engine, needs new tires\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/service_tickets/1/service-ticket-info",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"service_tickets",
+								"1",
+								"service-ticket-info"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Service Ticket Parts",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTkzNjQzMTcsImlhdCI6MTc1OTM2MDcxNywidXNlcl91dWlkIjoiNDU0YTdlMGItNjMwNi00ZmM1LWFmYmQtNGRhZmI4NDg2YzJlIiwicm9sZSI6Im1lY2hhbmljIiwidG9rZW5fdmVyc2lvbiI6MX0.c66nWumMO0SjKEX4WL3zDXXc3i6dL629gSW_ziWwyP0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"inventory_id\":\"1\",\n    \"quantity_used\":\"2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/service_tickets/1/update-parts",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"service_tickets",
+								"1",
+								"update-parts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Service Ticket Mechanics",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTkzNTQ5ODEsImlhdCI6MTc1OTM1MTM4MSwidXNlcl91dWlkIjoiNDU0YTdlMGItNjMwNi00ZmM1LWFmYmQtNGRhZmI4NDg2YzJlIiwicm9sZSI6Im1lY2hhbmljIiwidG9rZW5fdmVyc2lvbiI6MX0.Gz0ITBRXNu5Bpxi_0tvkV7hvaCvPwYJ-Wc9IVaUXx0g",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n      \"add_mechanic_ids\":[1,2],\n      \"remove_mechanic_ids\":[]\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/service_tickets/1/update-mechanics",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"service_tickets",
+								"1",
+								"update-mechanics"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Inventories",
+			"item": [
+				{
+					"name": "Create Part",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTkzMzI2ODMsImlhdCI6MTc1OTMyOTA4MywidXNlcl91dWlkIjoiY2U5ZDQzM2EtNjA1YS00Y2I2LWFlNzYtODRhYzliY2ExOTNlIiwicm9sZSI6Im1lY2hhbmljIiwidG9rZW5fdmVyc2lvbiI6MX0.tDAzk4lCrhF5TkOuSmAJuza_a_WAaQqJhVDDANpoZvo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"part_name\":\"10w-40 engine oil\",\n   \"price\":5.99,\n   \"quantity\":23\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/inventories",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"inventories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Parts",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTkzMzE1MTMsImlhdCI6MTc1OTMyNzkxMywidXNlcl91dWlkIjoiNTZkMjllOGYtZDQzNi00MGExLTlmZTktNTVkNDMzNWY0MzhhIiwicm9sZSI6Im1lY2hhbmljIiwidG9rZW5fdmVyc2lvbiI6MX0.YQw0ygGBeh4LkOlTdM8jYg296iMLg3q3Mgdo-Ci-6Hk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"part_name\":\"10w-40 engine oil\",\n   \"price\":\"5.99\"\n}"
+						},
+						"url": {
+							"raw": "{{baseURL}}/inventories",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"inventories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Part",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/inventories/1",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"inventories",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Part",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTkzMzI2ODMsImlhdCI6MTc1OTMyOTA4MywidXNlcl91dWlkIjoiY2U5ZDQzM2EtNjA1YS00Y2I2LWFlNzYtODRhYzliY2ExOTNlIiwicm9sZSI6Im1lY2hhbmljIiwidG9rZW5fdmVyc2lvbiI6MX0.tDAzk4lCrhF5TkOuSmAJuza_a_WAaQqJhVDDANpoZvo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1,\n    \"part_name\": \"10w-40 engine oil\",\n    \"price\": 6.99,\n    \"quantity\": 44\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/inventories/1",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"inventories",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Part",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTkzMzg1NjAsImlhdCI6MTc1OTMzNDk2MCwidXNlcl91dWlkIjoiNzZiZWZhYWEtYmY4MC00ZTBhLWJhNjUtNmNlZWU4NTVhZmU5Iiwicm9sZSI6Im1lY2hhbmljIiwidG9rZW5fdmVyc2lvbiI6MX0.QHqe-L-yDwz-v6KLtnShiYd8ziD8prqTg-ZOnVNmunE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseURL}}/inventories/1",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"inventories",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": ""
+		}
+	]
+}
