@@ -1,6 +1,6 @@
 # Mechanic Service API
 
-A RESTful API for managing customers, mechanics, and service tickets built with Flask, SQLAlchemy, and MySQL.
+A RESTful API for managing customers, mechanics, inventory parts, and service tickets built with Flask, SQLAlchemy, and MySQL.
 
 ---
 
