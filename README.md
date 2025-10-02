@@ -35,7 +35,7 @@ A RESTful API for managing customers, mechanics, and service tickets built with 
 
 ## Installation
 
-````bash
+```bash
 git clone https://github.com/putman44/Assignment-Building-API-with-Application-Factory-Pattern
 cd Assignment-Building-API-with-Application-Factory-Pattern
 
@@ -52,47 +52,49 @@ pip install Flask Flask-SQLAlchemy Flask-Marshmallow mysql-connector-python mars
 
 ## API Endpoints
 
-
 ### Customers
 
-| Method | Endpoint              | Description         |
-|--------|-----------------------|---------------------|
-| POST   | /customers            | Create a customer   |
-| GET    | /customers            | List all customers  |
-| GET    | /customers/&lt;int:customer_id&gt;       | Get a customer      |
-| PUT    | /customers/&lt;int:customer_id&gt;       | Update a customer   |
-| DELETE | /customers/&lt;int:customer_id&gt;       | Delete a customer   |
+| Method | Endpoint                           | Description        |
+| ------ | ---------------------------------- | ------------------ |
+| POST   | /customers                         | Create a customer  |
+| GET    | /customers                         | List all customers |
+| GET    | /customers/&lt;int:customer_id&gt; | Get a customer     |
+| PUT    | /customers/&lt;int:customer_id&gt; | Update a customer  |
+| DELETE | /customers/&lt;int:customer_id&gt; | Delete a customer  |
 
 ### Mechanics
 
-| Method | Endpoint         | Description         |
-|--------|------------------|---------------------|
-| POST   | /mechanics       | Create a mechanic   |
-| GET    | /mechanics       | List all mechanics  |
-| GET    | /mechanics/&lt;int:mechanic_id&gt;  | Get a mechanic      |
-| PUT    | /mechanics/&lt;int:mechanic_id&gt;  | Update a mechanic   |
-| DELETE | /mechanics/&lt;int:mechanic_id&gt;  | Delete a mechanic   |
+| Method | Endpoint                           | Description        |
+| ------ | ---------------------------------- | ------------------ |
+| POST   | /mechanics                         | Create a mechanic  |
+| GET    | /mechanics                         | List all mechanics |
+| GET    | /mechanics/&lt;int:mechanic_id&gt; | Get a mechanic     |
+| PUT    | /mechanics/&lt;int:mechanic_id&gt; | Update a mechanic  |
+| DELETE | /mechanics/&lt;int:mechanic_id&gt; | Delete a mechanic  |
 
 ### Service Tickets
 
-| Method | Endpoint                | Description             |
-|--------|-------------------------|-------------------------|
-| POST   | /service_tickets        | Create a service ticket |
-| GET    | /service_tickets        | List all service tickets|
-| GET    | /service_tickets/&lt;int:service_ticket_id&gt;   | Get a service ticket    |
-| GET    | /service_tickets/most-tickets  | Get the mechanics with the most service tickets |
-| PUT    | /service_tickets/&lt;int:service_ticket_id&gt;/update-part   | Update a service ticket parts |
-| PUT    | /service_tickets/&lt;int:service_ticket_id&gt;/update-mechanics   | Update a service ticket mechanics |
-| PUT    | /service_tickets/&lt;int:service_ticket_id&gt;/service-ticket-info  | Update a service ticket's information |
-| DELETE | /service_tickets/&lt;int:service_ticket_id&gt;   | Delete a service ticket |
+| Method | Endpoint                                                           | Description                                     |
+| ------ | ------------------------------------------------------------------ | ----------------------------------------------- |
+| POST   | /service_tickets                                                   | Create a service ticket                         |
+| GET    | /service_tickets                                                   | List all service tickets                        |
+| GET    | /service_tickets/&lt;int:service_ticket_id&gt;                     | Get a service ticket                            |
+| GET    | /service_tickets/most-tickets                                      | Get the mechanics with the most service tickets |
+| PUT    | /service_tickets/&lt;int:service_ticket_id&gt;/update-part         | Update a service ticket parts                   |
+| PUT    | /service_tickets/&lt;int:service_ticket_id&gt;/update-mechanics    | Update a service ticket mechanics               |
+| PUT    | /service_tickets/&lt;int:service_ticket_id&gt;/service-ticket-info | Update a service ticket's information           |
+| DELETE | /service_tickets/&lt;int:service_ticket_id&gt;                     | Delete a service ticket                         |
 
 ### Inventories
 
-| Method | Endpoint         | Description         |
-|--------|------------------|---------------------|
-| POST   | /inventories     | Create an inventory part |
-| GET    | /inventories     | List all inventory parts |
-| GET    | /inventories/&lt;int:inventory_id&gt;  | Get an inventory part      |
-| PUT    | /inventories/&lt;int:inventory_id&gt;  | Update an inventory part   |
-| DELETE | /inventories/&lt;int:inventory_id&gt;  | Delete an inventory part   |
-````
+| Method | Endpoint                              | Description              |
+| ------ | ------------------------------------- | ------------------------ |
+| POST   | /inventories                          | Create an inventory part |
+| GET    | /inventories                          | List all inventory parts |
+| GET    | /inventories/&lt;int:inventory_id&gt; | Get an inventory part    |
+| PUT    | /inventories/&lt;int:inventory_id&gt; | Update an inventory part |
+| DELETE | /inventories/&lt;int:inventory_id&gt; | Delete an inventory part |
+
+```
+
+```
