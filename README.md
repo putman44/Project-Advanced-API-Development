@@ -21,6 +21,8 @@ A RESTful API for managing customers, mechanics, inventory parts, and service ti
 - Many-to-many relationships with extra data (ServiceTicket ↔ Mechanic via ServiceTicketMechanic).
 - Many-to-many relationships (ServiceTicket ↔ Inventory via ServiceTicketInventory).
 - Marshmallow schemas for serialization and validation.
+- Role-based access control (RBAC) with JWT authentication.
+- Rate limiting to prevent abuse and caching.
 
 ---
 
