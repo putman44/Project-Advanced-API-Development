@@ -11,49 +11,103 @@ paths:
           schema:
             $ref: "./base.yaml#/definitions/LoginResponse"
     responses:
-      "200":
+      200:
         description: Login successful
       schema:
-        $ref: "./base.yaml#/definitions/LoginCredentials"
+        $ref: "./base.yaml#/definitions/LoginResponse"
+      401:
+        description: "Bad Request - Invalid Email or missing fields"
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+        examples:
+          application/json:
+            message: "Invalid email or password."
 
   /mechanics:
-    post:
+    post: #Post request
       tags:
         - Mechanics
-      summary: Create a new mechanic
+      summary: "Endpoint to create/register a new mechanic."
+      description: "Endpoint to create a new mechanic in our system, emails must be unique."
       parameters:
-        - in: body
-          name: body
+        - in: "body"
+          name: "body"
+          description: "Information required to create a new mechanic."
           required: true
           schema:
-            $ref: "#/definitions/Mechanic"
+            $ref: "#/definitions/CreateMechanicPayload"
       responses:
-        "201":
-          description: Mechanic created successfully
+        201:
+          descriptions: "Successful Mechanic Creation"
           schema:
-            $ref: "#/definitions/Mechanic"
+            $ref: "#/definitions/CreateMechanicResponse"
+          examples:
+            application/json:
+              id: 1
+              name: John Doe
+              phone: "999-999-9999"
+              email: johnd@email.com
+              password: password123
+              salary: 1234
+              role: "mechanic"
+              token_version: 1
+              user_uuid: 1234
+
+        400:
+          description: "Bad Request - Email already exists or missing fields"
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          examples:
+            application/json:
+              case1:
+                email: "Email already associated with an account"
+                phone: "Phone number already associated with an account"
+              case2:
+                email: "Invalid email address, must be in format: user@example.com"
+                password: "Password must be longer than 8 characters."
+                phone: "Invalid phone number format (XXX-XXX-XXXX)"
 
     get:
       tags:
         - Mechanics
       summary: Get all mechanics
       responses:
-        "200":
+        200:
           description: Retrieved Mechanics
           schema:
-            $ref: "#/definitions/AllMechanicsResponse"
+            $ref: "./base.yaml#/definitions/AllMechanicsResponse"
+          examples:
+            application/json:
+              case1:
+                id: 1
+                name: John Doe
+                phone: "999-999-9999"
+                email: johnd@email.com
+                password: password123
+                salary: 1234
+                role: "mechanic"
+                token_version: 1
+                user_uuid: 1234
+              case2:
+                message: "There are no mechanics in the system."
 
     put:
       tags:
         - Mechanics
-      summary: Update a mechanic
+      summary: Endpoint to update a mechanic, can enter one or more fields
       description: "Endpoint to update a mechanic, this is a token authenticated route, and the user must be logged in to update their account."
       security:
         - bearerAuth: []
       parameters:
         - in: body
           name: body
-          description: "Information required to update a mechanic."
+          description: "Information required to update a mechanic, can be one or more fields."
           required: true
           schema:
             $ref: "#/definitions/UpdateMechanicPayload"
@@ -66,26 +120,98 @@ paths:
             application/json:
               id: 1
               name: Jane Doe
-              DOB: "1980-01-01"
+              phone: "999-999-9999"
               email: "janedoe@example.com"
               password: "newpassword123"
+              salary: 1234
+        400:
+          description: "Bad Request - Entered field are already associated with an another account"
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          examples:
+            application/json:
+              case1:
+                email: "Email already associated with an account"
+                phone: "Phone number already associated with an account."
+              case2:
+                email: "Invalid email address, must be in format: user@example.com"
+                phone: "Invalid phone number, must be in format: 999-999-9999"
+        401:
+          $ref: "./base.yaml#/responses/UnauthorizedError"
+
+    delete:
+      tags:
+        - Mechanics
+      summary: "Endpoint to delete a mechanic"
+      description: "Endpoint to delete a mechanic. Requires token authentication, mechanic must be logged in to delete their account"
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: "Successfully Deleted mechanic"
+          schema:
+            $ref: "#/definitions/DeleteMechanicResponse"
+          examples:
+            application/json:
+              message: "Mechanic id: <mechanic_id>, successfully deleted."
+        401:
+          $ref: "./base.yaml#/responses/UnauthorizedError"
+
+  /mechanics/my-tickets:
+    get:
+      tags:
+        - Mechanics
+      summary: Get all service tickets for the logged-in mechanic
+      description: Retrieve all service tickets associated with the authenticated mechanic. This is a token authenticated route, and the user must be logged in to view their tickets.
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Retrieved Service Tickets
+          schema:
+            $ref: "./base.yaml#/definitions/ServiceTicketsResponse"
+          examples:
+            application/json:
+              case1:
+                id: 1
+                customer_id: 1
+                inventory_links: []
+                mechanics: []
+                VIN: 1234
+                service_date: 1111-11-11
+                service_desc: "work"
+
+              case2:
+                message: "You have no service tickets."
+
+        401:
+          $ref: "./base.yaml#/responses/UnauthorizedError"
 
   /mechanics/{id}:
     get:
       tags:
         - Mechanics
-      summary: Get mechanic by ID
+      summary: Get a single mechanic by ID
       parameters:
         - in: path
           name: id
-          type: integer
           required: true
           description: ID of the mechanic to retrieve
       responses:
-        "200":
-          description: Retrieved Mechanic
+        200:
+          description: Successfully retrieved mechanic
           schema:
-            $ref: "#/definitions/Mechanic"
+            $ref: "#./base.yaml#/definitions/Mechanic"
+        401:
+          $ref: "./base.yaml#/responses/UnauthorizedError"
+        404:
+          description: Mechanics with id was not found
+          example:
+            application/json:
+              message: "Mechanic not found."
 
 definitions:
   CreateMechanicPayload:
@@ -95,15 +221,17 @@ definitions:
         type: string
       email:
         type: string
-      DOB:
+      phone:
         type: string
-        format: date
       password:
         type: string
+      salary:
+        type: integer
     required:
       - name
       - email
-      - DOB
+      - phone
+      - salary
       - password
 
   CreateMechanicResponse:
@@ -115,26 +243,18 @@ definitions:
         type: string
       email:
         type: string
-      DOB:
+      role:
         type: string
       password:
         type: string
-
-  AllMechanicsResponse:
-    type: array
-    items:
-      type: object
-      properties:
-        id:
-          type: integer
-        name:
-          type: string
-        email:
-          type: string
-        DOB:
-          type: string
-        password:
-          type: string
+      phone:
+        type: string
+      salary:
+        type: integer
+      user_uuid:
+        type: string
+      token_version:
+        type: integer
 
   UpdateMechanicPayload:
     type: "object"
@@ -143,17 +263,12 @@ definitions:
         type: "string"
       email:
         type: "string"
-      DOB:
+      phone:
         type: "string"
-        format: "date"
       password:
         type: "string"
-
-    required:
-      - name
-      - email
-      - DOB
-      - password
+      salary:
+        type: integer
 
   UpdateMechanicResponse:
     type: "object"
@@ -164,10 +279,19 @@ definitions:
         type: "string"
       email:
         type: "string"
-      DOB:
+      phone:
         type: "string"
       password:
         type: "string"
+      salary:
+        type: integer
+      role:
+        type: string
+        example: customer
+      token_version:
+        type: integer
+      user_uuid:
+        type: string
 
   DeleteMechanicResponse:
     type: "object"

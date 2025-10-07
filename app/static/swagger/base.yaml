@@ -79,6 +79,30 @@ definitions:
       password:
         type: string
 
+  AllMechanicsResponse:
+    type: array
+    items:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        role:
+          type: string
+        password:
+          type: string
+        phone:
+          type: string
+        salary:
+          type: integer
+        user_uuid:
+          type: string
+        token_version:
+          type: integer
+
   ServiceTicketsResponse:
     type: "object"
     properties:
@@ -122,9 +146,24 @@ paths:
   /customers/my-tickets:
     $ref: "./customers.yaml#/paths/~1customers~1my-tickets"
 
-  # /mechanics/login:
-  #   $ref: "./mechanics.yaml#/paths/~1mechanics~1login"
-  # /mechanics:
-  #   $ref: "./mechanics.yaml#/paths/~1mechanics"
-  # /mechanics/{id}:
-  #   $ref: "./mechanics.yaml#/paths/~1mechanics~1{id}"
+  /mechanics/login:
+    $ref: "./mechanics.yaml#/paths/~1mechanics~1login"
+  /mechanics:
+    $ref: "./mechanics.yaml#/paths/~1mechanics"
+  /mechanics/{id}:
+    $ref: "./mechanics.yaml#/paths/~1mechanics~1{id}"
+  /mechanics/my-tickets:
+    $ref: "./mechanics.yaml#/paths/~1mechanics~1my-tickets"
+
+  /service_tickets:
+    $ref: "./service_tickets.yaml#/paths/~1service_tickets"
+  /service_tickets/most-tickets:
+    $ref: "./service_tickets.yaml#/paths/~1service_tickets~1most-tickets"
+  /service_tickets/{id}:
+    $ref: "./service_tickets.yaml#/paths/~1service_tickets~1{id}"
+  /service_tickets/{id}/update-info:
+    $ref: "./service_tickets.yaml#/paths/~1service_tickets~1{id}~1update-info"
+  /service_tickets/{id}/update-mechanics:
+    $ref: "./service_tickets.yaml#/paths/~1service_tickets~1{id}~1update-mechanics"
+  /service_tickets/{id}/update-parts:
+    $ref: "./service_tickets.yaml#/paths/~1service_tickets~1{id}~1update-parts"

@@ -51,6 +51,9 @@ paths:
               phone: "999-999-9999"
               email: johnd@email.com
               password: password123
+              role: "customer"
+              token_version: 1
+              user_uuid: 1
         400:
           description: "Bad Request - Email already exists or missing fields"
           schema:
