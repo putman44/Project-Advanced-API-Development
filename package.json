@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "@apidevtools/swagger-cli": "^4.0.4",
+    "nodemon": "^3.1.10"
+  },
+  "scripts": {
+    "build-swagger": "npx swagger-cli bundle ./app/static/swagger/base.yaml -o ./app/static/swagger_build/merged.yaml -t yaml",
+    "watch-swagger": "nodemon --watch ./app/static/swagger --ext yaml --exec \"npm run build-swagger\""
+  }
+}
