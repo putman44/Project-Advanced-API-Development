@@ -2,6 +2,8 @@
 
 create .gitignore in root folder
 
+node_modules/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
