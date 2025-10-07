@@ -41,13 +41,33 @@ class InventorySchema(ma.SQLAlchemyAutoSchema):
             raise ValidationError("Quantity must be at least 1")
 
 
-class InventoryServiceTicketSchema(ma.SQLAlchemyAutoSchema):
+class InventoryServiceTicketSchema(ma.SQLAlchemySchema):
     inventory_id = ma.Int(required=True)
-    quantity_used = ma.Int(required=True)
+    quantity_used = ma.Int(required=False, default=0)
+    quantity_returned = ma.Int(required=False, default=0)
 
     class Meta:
         model = InventoryServiceTicket
         include_relationships = True
+        fields = (
+            "inventory_id",
+            "quantity_used",
+            "quantity_returned",
+        )
+
+    @validates_schema
+    def validate_quantities(self, data, **kwargs):
+        used = data.get("quantity_used", 0)
+        returned = data.get("quantity_returned", 0)
+
+        if used < 0:
+            raise ValidationError("quantity_used cannot be negative")
+        if returned < 0:
+            raise ValidationError("quantity_returned cannot be negative")
+        if used == 0 and returned == 0:
+            raise ValidationError(
+                "At least one of quantity_used or quantity_returned must be provided"
+            )
 
 
 inventory_schema = InventorySchema()
