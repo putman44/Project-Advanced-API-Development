@@ -1,0 +1,176 @@
+paths:
+  /mechanics/login:
+    post:
+      tags:
+        - Mechanics
+      summary: Mechanic login endpoint
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "./base.yaml#/definitions/LoginResponse"
+    responses:
+      "200":
+        description: Login successful
+      schema:
+        $ref: "./base.yaml#/definitions/LoginCredentials"
+
+  /mechanics:
+    post:
+      tags:
+        - Mechanics
+      summary: Create a new mechanic
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/definitions/Mechanic"
+      responses:
+        "201":
+          description: Mechanic created successfully
+          schema:
+            $ref: "#/definitions/Mechanic"
+
+    get:
+      tags:
+        - Mechanics
+      summary: Get all mechanics
+      responses:
+        "200":
+          description: Retrieved Mechanics
+          schema:
+            $ref: "#/definitions/AllMechanicsResponse"
+
+    put:
+      tags:
+        - Mechanics
+      summary: Update a mechanic
+      description: "Endpoint to update a mechanic, this is a token authenticated route, and the user must be logged in to update their account."
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: body
+          name: body
+          description: "Information required to update a mechanic."
+          required: true
+          schema:
+            $ref: "#/definitions/UpdateMechanicPayload"
+      responses:
+        200:
+          description: "Successfully Updated mechanic"
+          schema:
+            $ref: "#/definitions/UpdateMechanicResponse"
+          examples:
+            application/json:
+              id: 1
+              name: Jane Doe
+              DOB: "1980-01-01"
+              email: "janedoe@example.com"
+              password: "newpassword123"
+
+  /mechanics/{id}:
+    get:
+      tags:
+        - Mechanics
+      summary: Get mechanic by ID
+      parameters:
+        - in: path
+          name: id
+          type: integer
+          required: true
+          description: ID of the mechanic to retrieve
+      responses:
+        "200":
+          description: Retrieved Mechanic
+          schema:
+            $ref: "#/definitions/Mechanic"
+
+definitions:
+  CreateMechanicPayload:
+    type: object
+    properties:
+      name:
+        type: string
+      email:
+        type: string
+      DOB:
+        type: string
+        format: date
+      password:
+        type: string
+    required:
+      - name
+      - email
+      - DOB
+      - password
+
+  CreateMechanicResponse:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      email:
+        type: string
+      DOB:
+        type: string
+      password:
+        type: string
+
+  AllMechanicsResponse:
+    type: array
+    items:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        DOB:
+          type: string
+        password:
+          type: string
+
+  UpdateMechanicPayload:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      email:
+        type: "string"
+      DOB:
+        type: "string"
+        format: "date"
+      password:
+        type: "string"
+
+    required:
+      - name
+      - email
+      - DOB
+      - password
+
+  UpdateMechanicResponse:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+      name:
+        type: "string"
+      email:
+        type: "string"
+      DOB:
+        type: "string"
+      password:
+        type: "string"
+
+  DeleteMechanicResponse:
+    type: "object"
+    properties:
+      message:
+        type: "string"

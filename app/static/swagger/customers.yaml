@@ -1,0 +1,326 @@
+paths:
+  /customers/login:
+    post:
+      tags:
+        - Customers
+      summary: Customer login endpoint
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "./base.yaml#/definitions/LoginCredentials"
+      responses:
+        200:
+          description: Login successful
+        schema:
+          $ref: "./base.yaml#/definitions/LoginResponse"
+        401:
+          description: "Bad Request - Invalid Email or missing fields"
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          examples:
+            application/json:
+              message: "Invalid email or password."
+
+  /customers: #endpoint
+    post: #Post request
+      tags:
+        - Customers
+      summary: "Endpoint to create/register a new customer."
+      description: "Endpoint to create a new customer in our system, emails must be unique."
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Information required to create a new customer."
+          required: true
+          schema:
+            $ref: "#/definitions/CreateCustomerPayload"
+      responses:
+        201:
+          descriptions: "Successful Customer Creation"
+          schema:
+            $ref: "#/definitions/CreateCustomerResponse"
+          examples:
+            application/json:
+              id: 1
+              name: John Doe
+              phone: "999-999-9999"
+              email: johnd@email.com
+              password: password123
+        400:
+          description: "Bad Request - Email already exists or missing fields"
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          examples:
+            application/json:
+              case1:
+                email: "Email already associated with an account"
+                phone: "Phone number already associated with an account"
+              case2:
+                email: "Invalid email address, must be in format: user@example.com"
+                password: "Password must be longer than 8 characters."
+                phone: "Invalid phone number format (XXX-XXX-XXXX)"
+
+    get:
+      tags:
+        - Customers
+      summary: Get all customers
+      responses:
+        200:
+          description: Retrieved Customers
+          schema:
+            $ref: "#/definitions/AllCustomersResponse"
+          examples:
+            application/json:
+              case1:
+                total: 0
+                page: 1
+                pages: 0
+                per_page: 10
+                customers:
+                  id: 1
+                  name: John Doe
+                  email: johndoe@email.com
+                  phone: "999-999-9999"
+                  password: password123
+                  role: customer
+                  token_version: 1
+                  user_uuid: "uuid-1234"
+              case2:
+                message: "There are no customers in the system."
+
+    put:
+      tags:
+        - Customers
+      summary: "Endpoint to update a customer, can enter one or more fields"
+      description: "Endpoint to update a customer, this is a token authenticated route, and the user must be logged in to update their account."
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Information to update a customer, can be one or more fields."
+          required: true
+          schema:
+            $ref: "#/definitions/UpdateCustomerPayload"
+      responses:
+        200:
+          description: "Successfully Updated customer"
+          schema:
+            $ref: "#/definitions/UpdateCustomerResponse"
+          examples:
+            application/json:
+              id: 1
+              name: Dohn Joe
+              phone: "999-999-9999"
+              email: dohnj@email.com
+              password: password123
+        400:
+          description: "Bad Request - Entered field are already associated with an another account"
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          examples:
+            application/json:
+              case1:
+                email: "Email already associated with an account"
+                phone: "Phone number already associated with an account."
+              case2:
+                email: "Invalid email address, must be in format: user@example.com"
+                phone: "Invalid phone number, must be in format: 999-999-9999"
+        401:
+          $ref: "./base.yaml#/responses/UnauthorizedError"
+
+    delete:
+      tags:
+        - Customers
+      summary: "Endpoint to delete a customer"
+      description: "Endpoint to delete a customer. Requires token authentication, customer must be logged in to delete their account"
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: "Successfully Deleted customer"
+          schema:
+            $ref: "#/definitions/DeleteCustomerResponse"
+          examples:
+            application/json:
+              message: "Customer id: <customer_id>, successfully deleted."
+        401:
+          $ref: "./base.yaml#/responses/UnauthorizedError"
+
+  /customers/my-tickets:
+    get:
+      tags:
+        - Customers
+      summary: Get all service tickets for the logged-in customer
+      description: Retrieve all service tickets associated with the authenticated customer. This is a token authenticated route, and the user must be logged in to view their tickets.
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Retrieved Service Tickets
+          schema:
+            $ref: "./base.yaml#/definitions/ServiceTicketsResponse"
+          examples:
+            application/json:
+              case1:
+                id: 1
+                customer_id: 1
+                inventory_links: []
+                mechanics: []
+                VIN: 1234
+                service_date: 1111-11-11
+                service_desc: "work"
+
+              case2:
+                message: "You have no service tickets."
+
+        401:
+          $ref: "./base.yaml#/responses/UnauthorizedError"
+
+  /customers/{id}:
+    get:
+      tags:
+        - Customers
+      summary: Get a single customer by ID
+      description: Retrieve one customer's details using their unique ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: integer
+          description: The ID of the customer to retrieve
+      responses:
+        200:
+          description: Successfully retrieved customer
+          schema:
+            $ref: "#/definitions/Customer"
+        404:
+          description: Customer not found
+
+definitions:
+  Customer:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      email:
+        type: string
+      phone:
+        type: string
+      password:
+        type: string
+      role:
+        type: string
+        example: customer
+      token_version:
+        type: integer
+      user_uuid:
+        type: string
+
+  CreateCustomerPayload:
+    type: object
+    properties:
+      name:
+        type: string
+      email:
+        type: string
+      phone:
+        type: string
+      password:
+        type: string
+    required:
+      - name
+      - email
+      - phone
+      - password
+
+  CreateCustomerResponse:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      email:
+        type: string
+      phone:
+        type: string
+      password:
+        type: string
+      role:
+        type: string
+        example: customer
+      token_version:
+        type: integer
+      user_uuid:
+        type: string
+
+  AllCustomersResponse:
+    type: array
+    items:
+      type: object
+      properties:
+        total:
+          type: integer
+        page:
+          type: integer
+        pages:
+          type: integer
+        per_page:
+          type: integer
+        customers:
+          type: array
+          items:
+            $ref: "#/definitions/Customer"
+
+  UpdateCustomerPayload:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      email:
+        type: "string"
+      phone:
+        type: "string"
+      password:
+        type: "string"
+
+  UpdateCustomerResponse:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+      name:
+        type: "string"
+      email:
+        type: "string"
+      phone:
+        type: "string"
+      password:
+        type: "string"
+      role:
+        type: string
+        example: customer
+      token_version:
+        type: integer
+      user_uuid:
+        type: string
+
+  DeleteCustomerResponse:
+    type: "object"
+    properties:
+      message:
+        type: "string"

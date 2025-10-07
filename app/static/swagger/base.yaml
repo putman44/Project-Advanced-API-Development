@@ -1,0 +1,130 @@
+swagger: "2.0"
+info:
+  title: "Your API"
+  description: "API to manage a mechanic shop"
+  version: "1.0.0"
+host: "127.0.0.1:5000"
+schemes:
+  - "http"
+consumes:
+  - "application/json"
+produces:
+  - "application/json"
+
+responses:
+  UnauthorizedError:
+    description: "Unauthorized - Token is missing or invalid"
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+    examples:
+      application/json:
+        case1:
+          message: "Invalid token!"
+        case2:
+          message: "Token has expired!"
+        case3:
+          message: "Token is no longer valid"
+        case4:
+          message: "Invalid role in token"
+        case5:
+          message: "Authorization header must start with 'Bearer'"
+        case6:
+          message: "Bearer token missing after prefix"
+        case7:
+          message: "Authorization header missing"
+
+securityDefinitions:
+  bearerAuth:
+    type: apiKey
+    name: Authorization
+    in: header
+    description: "Enter your token like: Bearer <token>"
+
+definitions:
+  LoginCredentials:
+    type: object
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+      - email
+      - password
+
+  LoginResponse:
+    type: object
+    properties:
+      token:
+        type: string
+      message:
+        type: string
+      status:
+        type: string
+
+  Mechanic:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      email:
+        type: string
+      DOB:
+        type: string
+      password:
+        type: string
+
+  ServiceTicketsResponse:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+      customer_id:
+        type: "integer"
+      inventory_links:
+        type: "array"
+        items:
+          type: object
+          properties:
+            inventory_id:
+              type: integer
+            quantity_used:
+              type: integer
+      mechanics:
+        type: "array"
+        items:
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+      VIN:
+        type: "string"
+      service_date:
+        type: "string"
+        format: "date"
+      service_desc:
+        type: "string"
+
+paths:
+  /customers/login:
+    $ref: "./customers.yaml#/paths/~1customers~1login"
+  /customers:
+    $ref: "./customers.yaml#/paths/~1customers"
+  /customers/{id}:
+    $ref: "./customers.yaml#/paths/~1customers~1{id}"
+  /customers/my-tickets:
+    $ref: "./customers.yaml#/paths/~1customers~1my-tickets"
+
+  # /mechanics/login:
+  #   $ref: "./mechanics.yaml#/paths/~1mechanics~1login"
+  # /mechanics:
+  #   $ref: "./mechanics.yaml#/paths/~1mechanics"
+  # /mechanics/{id}:
+  #   $ref: "./mechanics.yaml#/paths/~1mechanics~1{id}"
