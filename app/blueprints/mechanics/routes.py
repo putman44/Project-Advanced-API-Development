@@ -16,7 +16,7 @@ def login():
         email = mechanic_credentials["email"]
         password = mechanic_credentials["password"]
     except ValidationError as e:
-        return jsonify(e.messages)
+        return jsonify(e.messages), 400
 
     query = select(Mechanic).where(Mechanic.email == email)
     mechanic = db.session.execute(query).scalars().first()
@@ -60,6 +60,9 @@ def get_mechanics():
     query = select(Mechanic)
     mechanics = db.session.execute(query).scalars().all()
 
+    if len(mechanics) < 1:
+        return jsonify({"message": "There are no mechanics in the system."}), 200
+
     return mechanics_schema.jsonify(mechanics)
 
 
@@ -79,6 +82,9 @@ def get_mechanic(mechanic_id):
 def get_mechanics_my_tickets(user, user_role):
 
     service_tickets = user.service_tickets
+
+    if len(service_tickets) < 1:
+        return jsonify({"message": "You have no service tickets"}), 200
 
     return service_tickets_schema.jsonify(service_tickets), 200
 
