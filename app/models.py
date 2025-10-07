@@ -93,7 +93,7 @@ class InventoryServiceTicket(Base):
     service_ticket: Mapped["ServiceTicket"] = relationship(
         back_populates="inventory_links"
     )
-    
+
     inventory: Mapped["Inventory"] = relationship(back_populates="service_ticket_links")
 
 
@@ -102,7 +102,7 @@ class ServiceTicket(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     VIN: Mapped[str] = mapped_column(String(255), nullable=False)
-    service_date: Mapped[date] = mapped_column(Date, nullable=False)
+    service_date: Mapped[str] = mapped_column(String(10), nullable=False)
     service_desc: Mapped[str] = mapped_column(String(255), nullable=False)
     customer_id: Mapped[int] = mapped_column(
         ForeignKey("customers.id", ondelete="CASCADE")
