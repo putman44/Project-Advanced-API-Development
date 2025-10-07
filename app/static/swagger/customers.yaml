@@ -13,8 +13,8 @@ paths:
       responses:
         200:
           description: Login successful
-        schema:
-          $ref: "./base.yaml#/definitions/LoginResponse"
+          schema:
+            $ref: "./base.yaml#/definitions/LoginResponse"
         401:
           description: "Bad Request - Invalid Email or missing fields"
           schema:
@@ -40,8 +40,8 @@ paths:
           schema:
             $ref: "#/definitions/CreateCustomerPayload"
       responses:
-        201:
-          descriptions: "Successful Customer Creation"
+        200:
+          description: "Successful Customer Creation"
           schema:
             $ref: "#/definitions/CreateCustomerResponse"
           examples:
@@ -147,12 +147,12 @@ paths:
       tags:
         - Customers
       summary: "Endpoint to delete a customer"
-      description: "Endpoint to delete a customer. Requires token authentication, customer must be logged in to delete their account"
+      description: "Endpoint to delete a customer, requires token authentication, customer must be logged in to delete their account"
       security:
         - bearerAuth: []
       responses:
         200:
-          description: "Successfully Deleted customer"
+          description: "Successfully deleted customer"
           schema:
             $ref: "#/definitions/DeleteCustomerResponse"
           examples:
@@ -181,8 +181,8 @@ paths:
                 customer_id: 1
                 inventory_links: []
                 mechanics: []
-                VIN: 1234
-                service_date: 1111-11-11
+                VIN: "1234"
+                service_date: "1111-11-11"
                 service_desc: "work"
 
               case2:
@@ -191,14 +191,14 @@ paths:
         401:
           $ref: "./base.yaml#/responses/UnauthorizedError"
 
-  /customers/{id}:
+  /customers/{customer_id}:
     get:
       tags:
         - Customers
       summary: Get a single customer by ID
       description: Retrieve one customer's details using their unique ID.
       parameters:
-        - name: id
+        - name: customer_id
           in: path
           required: true
           type: integer
@@ -209,7 +209,15 @@ paths:
           schema:
             $ref: "#/definitions/Customer"
         404:
-          description: Customer not found
+          description: Customer with given id was not found
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          examples:
+            application/json:
+              message: "Customer not found."
 
 definitions:
   Customer:
@@ -272,22 +280,20 @@ definitions:
         type: string
 
   AllCustomersResponse:
-    type: array
-    items:
-      type: object
-      properties:
-        total:
-          type: integer
-        page:
-          type: integer
-        pages:
-          type: integer
-        per_page:
-          type: integer
-        customers:
-          type: array
-          items:
-            $ref: "#/definitions/Customer"
+    type: object
+    properties:
+      total:
+        type: integer
+      page:
+        type: integer
+      pages:
+        type: integer
+      per_page:
+        type: integer
+      customers:
+        type: array
+        items:
+          $ref: "#/definitions/Customer"
 
   UpdateCustomerPayload:
     type: "object"

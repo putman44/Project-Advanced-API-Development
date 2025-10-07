@@ -69,8 +69,16 @@ definitions:
         type: string
       email:
         type: string
-      DOB:
+      phone:
         type: string
+      role:
+        type: string
+      user_uuid:
+        type: string
+      token_version:
+        type: integer
+      salary:
+        type: integer
       password:
         type: string
   AllMechanicsResponse:
@@ -112,6 +120,8 @@ definitions:
               type: integer
             quantity_used:
               type: integer
+            quantity_returned:
+              type: integer
       mechanics:
         type: array
         items:
@@ -143,6 +153,8 @@ paths:
       responses:
         '200':
           description: Login successful
+          schema:
+            $ref: '#/definitions/LoginResponse'
         '401':
           description: Bad Request - Invalid Email or missing fields
           schema:
@@ -153,8 +165,6 @@ paths:
           examples:
             application/json:
               message: Invalid email or password.
-        schema:
-          $ref: '#/definitions/LoginResponse'
   /customers:
     post:
       tags:
@@ -183,8 +193,8 @@ paths:
               - phone
               - password
       responses:
-        '201':
-          descriptions: Successful Customer Creation
+        '200':
+          description: Successful Customer Creation
           schema:
             type: object
             properties:
@@ -239,22 +249,20 @@ paths:
         '200':
           description: Retrieved Customers
           schema:
-            type: array
-            items:
-              type: object
-              properties:
-                total:
-                  type: integer
-                page:
-                  type: integer
-                pages:
-                  type: integer
-                per_page:
-                  type: integer
-                customers:
-                  type: array
-                  items:
-                    $ref: '#/paths/~1customers~1%7Bid%7D/get/responses/200/schema'
+            type: object
+            properties:
+              total:
+                type: integer
+              page:
+                type: integer
+              pages:
+                type: integer
+              per_page:
+                type: integer
+              customers:
+                type: array
+                items:
+                  $ref: '#/paths/~1customers~1%7Bcustomer_id%7D/get/responses/200/schema'
           examples:
             application/json:
               case1:
@@ -347,12 +355,12 @@ paths:
       tags:
         - Customers
       summary: Endpoint to delete a customer
-      description: 'Endpoint to delete a customer. Requires token authentication, customer must be logged in to delete their account'
+      description: 'Endpoint to delete a customer, requires token authentication, customer must be logged in to delete their account'
       security:
         - bearerAuth: []
       responses:
         '200':
-          description: Successfully Deleted customer
+          description: Successfully deleted customer
           schema:
             type: object
             properties:
@@ -363,14 +371,14 @@ paths:
               message: 'Customer id: <customer_id>, successfully deleted.'
         '401':
           $ref: '#/responses/UnauthorizedError'
-  '/customers/{id}':
+  '/customers/{customer_id}':
     get:
       tags:
         - Customers
       summary: Get a single customer by ID
       description: Retrieve one customer's details using their unique ID.
       parameters:
-        - name: id
+        - name: customer_id
           in: path
           required: true
           type: integer
@@ -399,7 +407,15 @@ paths:
               user_uuid:
                 type: string
         '404':
-          description: Customer not found
+          description: Customer with given id was not found
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          examples:
+            application/json:
+              message: Customer not found.
   /customers/my-tickets:
     get:
       tags:
@@ -420,7 +436,7 @@ paths:
                 customer_id: 1
                 inventory_links: []
                 mechanics: []
-                VIN: 1234
+                VIN: '1234'
                 service_date: '1111-11-11'
                 service_desc: work
               case2:
@@ -437,22 +453,22 @@ paths:
           name: body
           required: true
           schema:
+            $ref: '#/definitions/LoginCredentials'
+      responses:
+        '200':
+          description: Login successful
+          schema:
             $ref: '#/definitions/LoginResponse'
-    responses:
-      '200':
-        description: Login successful
-      '401':
-        description: Bad Request - Invalid Email or missing fields
-        schema:
-          type: object
-          properties:
-            message:
-              type: string
-        examples:
-          application/json:
-            message: Invalid email or password.
-      schema:
-        $ref: '#/definitions/LoginResponse'
+        '401':
+          description: Bad Request - Invalid Email or missing fields
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          examples:
+            application/json:
+              message: Invalid email or password.
   /mechanics:
     post:
       tags:
@@ -485,7 +501,7 @@ paths:
               - password
       responses:
         '201':
-          descriptions: Successful Mechanic Creation
+          description: Successful Mechanic Creation
           schema:
             type: object
             properties:
@@ -602,7 +618,7 @@ paths:
                 type: integer
               role:
                 type: string
-                example: customer
+                example: mechanic
               token_version:
                 type: integer
               user_uuid:
@@ -652,26 +668,32 @@ paths:
               message: 'Mechanic id: <mechanic_id>, successfully deleted.'
         '401':
           $ref: '#/responses/UnauthorizedError'
-  '/mechanics/{id}':
+  '/mechanics/{mechanic_id}':
     get:
       tags:
         - Mechanics
       summary: Get a single mechanic by ID
       parameters:
         - in: path
-          name: id
+          name: mechanic_id
           required: true
+          type: integer
           description: ID of the mechanic to retrieve
       responses:
         '200':
           description: Successfully retrieved mechanic
           schema:
-            $ref: '#./base.yaml#/definitions/Mechanic'
+            $ref: '#/definitions/Mechanic'
         '401':
           $ref: '#/responses/UnauthorizedError'
         '404':
-          description: Mechanics with id was not found
-          example:
+          description: Mechanic with given id was not found
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          examples:
             application/json:
               message: Mechanic not found.
   /mechanics/my-tickets:
@@ -694,7 +716,7 @@ paths:
                 customer_id: 1
                 inventory_links: []
                 mechanics: []
-                VIN: 1234
+                VIN: '1234'
                 service_date: '1111-11-11'
                 service_desc: work
               case2:
@@ -736,14 +758,15 @@ paths:
           schema:
             $ref: '#/definitions/ServiceTicketsResponse'
           examples:
-            case1:
-              id: 1
-              customer_id: 1
-              inventory_links: []
-              mechanics: []
-              VIN: 1234
-              service_date: '1111-11-11'
-              service_desc: work
+            application/json:
+              case1:
+                id: 1
+                customer_id: 1
+                inventory_links: []
+                mechanics: []
+                VIN: '1234'
+                service_date: '1111-11-11'
+                service_desc: work
         '400':
           description: Bad request - one or more fields failed validation.
           schema:
@@ -788,7 +811,7 @@ paths:
                 customer_id: 1
                 inventory_links: []
                 mechanics: []
-                VIN: 1234
+                VIN: '1234'
                 service_date: '1111-11-11'
                 service_desc: work
               case2:
@@ -819,26 +842,27 @@ paths:
                 user_uuid: 1234
               case2:
                 message: There are no mechanics in the system.
-  '/service_tickets/{id}':
+  '/service_tickets/{ticket_id}':
     get:
       tags:
         - ServiceTickets
       summary: Get a single service ticket by ID
       parameters:
         - in: path
-          name: id
+          name: ticket_id
+          type: integer
           required: true
-          description: ID of the mechanic to retrieve
+          description: ID of the service ticket to retrieve
       responses:
         '200':
           description: Successfully retrieved service ticket
           schema:
             $ref: '#/definitions/ServiceTicketsResponse'
         '404':
-          description: Service ticket with id not found
-          example:
+          description: Service ticket with the specified ID was not found.
+          examples:
             application/json:
-              message: Service ticket not found.
+              message: Service ticket with the specified ID was not found.
     delete:
       tags:
         - ServiceTickets
@@ -848,7 +872,7 @@ paths:
         - bearerAuth: []
       responses:
         '200':
-          description: Successfully Deleted service ticket
+          description: Successfully deleted service ticket.
           schema:
             type: object
             properties:
@@ -860,11 +884,11 @@ paths:
         '401':
           $ref: '#/responses/UnauthorizedError'
         '404':
-          description: Service Ticket with id was not found
-          example:
+          description: Service ticket with the specified ID was not found
+          examples:
             application/json:
-              message: Service ticket not found.
-  '/service_tickets/{id}/update-info':
+              message: Service ticket with the specified ID was not found
+  '/service_tickets/{ticket_id}/update-info':
     put:
       tags:
         - ServiceTickets
@@ -893,14 +917,15 @@ paths:
           schema:
             $ref: '#/definitions/ServiceTicketsResponse'
           examples:
-            case1:
-              id: 1
-              customer_id: 1
-              inventory_links: []
-              mechanics: []
-              VIN: 1234
-              service_date: '1111-11-11'
-              service_desc: work
+            application/json:
+              case1:
+                id: 1
+                customer_id: 1
+                inventory_links: []
+                mechanics: []
+                VIN: '1234'
+                service_date: '1111-11-11'
+                service_desc: work
         '400':
           description: Bad request - one or more fields failed validation.
           schema:
@@ -923,11 +948,11 @@ paths:
         '401':
           $ref: '#/responses/UnauthorizedError'
         '404':
-          description: Service ticket with id was not found
-          example:
+          description: Service ticket with the specified ID was not found.
+          examples:
             application/json:
-              message: Service ticket not found.
-  '/service_tickets/{id}/update-mechanics':
+              message: Service ticket with the specified ID was not found.
+  '/service_tickets/{ticket_id}/update-mechanics':
     put:
       tags:
         - ServiceTickets
@@ -963,7 +988,7 @@ paths:
                 customer_id: 1
                 inventory_links: []
                 mechanics: []
-                VIN: 1234
+                VIN: '1234'
                 service_date: '1111-11-11'
                 service_desc: work
         '400':
@@ -980,16 +1005,16 @@ paths:
         '401':
           $ref: '#/responses/UnauthorizedError'
         '404':
-          description: Service ticket with id was not found
-          example:
+          description: Service ticket with the specified ID was not found.
+          examples:
             application/json:
-              message: Service ticket not found.
-  '/service_tickets/{id}/update-parts':
+              message: Service ticket with the specified ID was not found.
+  '/service_tickets/{ticket_id}/update-parts':
     put:
       tags:
         - ServiceTickets
       summary: 'Endpoint to update a service ticket to add or remove parts, can enter one or more fields'
-      description: 'Endpoint to update a service ticket to to add or remove parts, this is a token authenticated route, and the mechanic must be logged in to update the service ticket.'
+      description: 'Endpoint to update a service ticket to add or remove parts, this is a token authenticated route, and the mechanic must be logged in to update the service ticket.'
       security:
         - bearerAuth: []
       parameters:
@@ -1038,11 +1063,216 @@ paths:
               case3:
                 error: 'Not enough {part.part_name}s in inventory'
               case4:
-                error: 'Cannot return more {part.part_name}s than used in this ticket"'
+                error: 'Cannot return more {part.part_name}s than used in this ticket'
         '401':
           $ref: '#/responses/UnauthorizedError'
         '404':
-          description: Service ticket with id was not found
-          example:
+          description: Service ticket with the specified ID was not found.
+          examples:
             application/json:
-              message: Service ticket not found.
+              message: Service ticket with the specified ID was not found.
+  /inventories:
+    post:
+      tags:
+        - Inventories
+      summary: Create part for inventory
+      description: 'Endpoint to create a part for inventory, this is a token authenticated route, and the mechanic must be logged in to create a part.'
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: body
+          name: body
+          description: Information required to create a inventory part.
+          required: true
+          schema:
+            type: object
+            properties:
+              part_name:
+                type: string
+              price:
+                type: number
+                format: float
+              quantity:
+                type: integer
+      responses:
+        '200':
+          description: Successfully created inventory part
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+              part_name:
+                type: string
+              price:
+                type: number
+                format: float
+              quantity:
+                type: integer
+          examples:
+            application/json:
+              id: 1
+              part_name: Headlight
+              price: 5.99
+              quantity: 1
+        '400':
+          description: Bad request - one or more fields failed validation.
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          examples:
+            application/json:
+              case1:
+                part_name: Name must be at least 2 characters long
+                price: Not a valid number
+                quantity: Not a valid integer
+              case2:
+                price: Price must be at least 0.01
+                quantity: Quantity must be at least 1
+        '401':
+          $ref: '#/responses/UnauthorizedError'
+    get:
+      tags:
+        - Inventories
+      summary: Get all parts in inventory
+      description: Endpoint to get all part from inventory
+      responses:
+        '200':
+          description: Retireved all inventory parts
+          schema:
+            type: array
+            items:
+              $ref: '#/paths/~1inventories/post/responses/200/schema'
+          examples:
+            application/json:
+              case1:
+                - id: 1
+                  part_name: Headlight
+                  price: 10
+                  quantity: 19
+                - id: 2
+                  part_name: Tail Light
+                  price: 12
+                  quantity: 15
+              case2:
+                message: There are no parts in the system.
+  '/inventories/{part_id}':
+    get:
+      tags:
+        - Inventories
+      summary: Get part in inventory
+      description: Endpoint to get a part from inventory
+      parameters:
+        - name: part_id
+          in: path
+          required: true
+          type: integer
+          description: The ID of the part to retrieve
+      responses:
+        '200':
+          description: Retireved inventory part
+          schema:
+            $ref: '#/paths/~1inventories/post/responses/200/schema'
+          examples:
+            application/json:
+              case1:
+                id: 2
+                part_name: Tail Light
+                price: 12
+                quantity: 15
+        '404':
+          description: Part with specified ID not found
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          examples:
+            message: Invalid part id
+    put:
+      tags:
+        - Inventories
+      summary: 'Endpoint to update a part in inventory, can enter one or more fields'
+      description: 'Endpoint to update a inventory part, this is a token authenticated route, and the mechanic must be logged in to update the part.'
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: part_id
+          in: path
+          required: true
+          type: integer
+          description: ID of the part to update
+        - in: body
+          name: body
+          description: 'Information to update an inventory part, can be one or more fields.'
+          required: true
+          schema:
+            type: object
+            properties:
+              part_name:
+                type: string
+              price:
+                type: number
+                format: float
+              quantity:
+                type: integer
+      responses:
+        '200':
+          description: Successfully Updated inventory part
+          schema:
+            $ref: '#/paths/~1inventories/post/responses/200/schema'
+          examples:
+            application/json:
+              id: 1
+              part_name: Headlight
+              price: 5.99
+              quantity: 1
+        '400':
+          description: Bad request - one or more fields failed validation.
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          examples:
+            application/json:
+              case1:
+                part_name: Name must be at least 2 characters long
+                price: Not a valid number
+                quantity: Not a valid integer
+              case2:
+                price: Price must be at least 0.01
+                quantity: Quantity must be at least 1
+        '401':
+          $ref: '#/responses/UnauthorizedError'
+    delete:
+      tags:
+        - Inventories
+      summary: Endpoint to delete a inventory part
+      description: 'Endpoint to delete a inventory part, requires token authentication, mechanic must be logged in to delete the part from inventory.'
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successfully deleted inventory part
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          examples:
+            application/json:
+              message: 'Successfully deleted part id <part_id>: part_name'
+        '401':
+          $ref: '#/responses/UnauthorizedError'
+        '404':
+          description: Part with specified ID not found
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          examples:
+            message: Invalid part id

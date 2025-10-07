@@ -20,14 +20,15 @@ paths:
           schema:
             $ref: "./base.yaml#/definitions/ServiceTicketsResponse"
           examples:
-            case1:
-              id: 1
-              customer_id: 1
-              inventory_links: []
-              mechanics: []
-              VIN: 1234
-              service_date: 1111-11-11
-              service_desc: "work"
+            application/json:
+              case1:
+                id: 1
+                customer_id: 1
+                inventory_links: []
+                mechanics: []
+                VIN: "1234"
+                service_date: "1111-11-11"
+                service_desc: "work"
         400:
           description: Bad request - one or more fields failed validation.
           schema:
@@ -73,8 +74,8 @@ paths:
                 customer_id: 1
                 inventory_links: []
                 mechanics: []
-                VIN: 1234
-                service_date: 1111-11-11
+                VIN: "1234"
+                service_date: "1111-11-11"
                 service_desc: "work"
 
               case2:
@@ -108,7 +109,7 @@ paths:
               case2:
                 message: "There are no mechanics in the system."
 
-  /service_tickets/{id}/update-info:
+  /service_tickets/{ticket_id}/update-info:
     put:
       tags:
         - ServiceTickets
@@ -129,14 +130,15 @@ paths:
           schema:
             $ref: "./base.yaml#/definitions/ServiceTicketsResponse"
           examples:
-            case1:
-              id: 1
-              customer_id: 1
-              inventory_links: []
-              mechanics: []
-              VIN: 1234
-              service_date: 1111-11-11
-              service_desc: "work"
+            application/json:
+              case1:
+                id: 1
+                customer_id: 1
+                inventory_links: []
+                mechanics: []
+                VIN: "1234"
+                service_date: "1111-11-11"
+                service_desc: "work"
         400:
           description: Bad request - one or more fields failed validation.
           schema:
@@ -159,12 +161,12 @@ paths:
         401:
           $ref: "./base.yaml#/responses/UnauthorizedError"
         404:
-          description: Service ticket with id was not found
-          example:
+          description: Service ticket with the specified ID was not found.
+          examples:
             application/json:
-              message: "Service ticket not found."
+              message: Service ticket with the specified ID was not found.
 
-  /service_tickets/{id}/update-mechanics:
+  /service_tickets/{ticket_id}/update-mechanics:
     put:
       tags:
         - ServiceTickets
@@ -191,8 +193,8 @@ paths:
                 customer_id: 1
                 inventory_links: []
                 mechanics: []
-                VIN: 1234
-                service_date: 1111-11-11
+                VIN: "1234"
+                service_date: "1111-11-11"
                 service_desc: "work"
         400:
           description: Bad request - one or more fields failed validation.
@@ -208,17 +210,17 @@ paths:
         401:
           $ref: "./base.yaml#/responses/UnauthorizedError"
         404:
-          description: Service ticket with id was not found
-          example:
+          description: Service ticket with the specified ID was not found.
+          examples:
             application/json:
-              message: "Service ticket not found."
+              message: Service ticket with the specified ID was not found.
 
-  /service_tickets/{id}/update-parts:
+  /service_tickets/{ticket_id}/update-parts:
     put:
       tags:
         - ServiceTickets
       summary: Endpoint to update a service ticket to add or remove parts, can enter one or more fields
-      description: "Endpoint to update a service ticket to to add or remove parts, this is a token authenticated route, and the mechanic must be logged in to update the service ticket."
+      description: "Endpoint to update a service ticket to add or remove parts, this is a token authenticated route, and the mechanic must be logged in to update the service ticket."
       security:
         - bearerAuth: []
       parameters:
@@ -247,43 +249,44 @@ paths:
           examples:
             application/json:
               case1:
-                inventory_id: Part id <part_id> does not exist
+                inventory_id: "Part id <part_id> does not exist"
                 quantity_used: "quantity_used cannot be negative"
-                quantity_returned: quantity_used cannot be negative
+                quantity_returned: "quantity_used cannot be negative"
               case2:
                 schema: "At least one of quantity_used or quantity_returned must be provided"
               case3:
-                error: Not enough {part.part_name}s in inventory
+                error: "Not enough {part.part_name}s in inventory"
               case4:
-                error: Cannot return more {part.part_name}s than used in this ticket"
+                error: "Cannot return more {part.part_name}s than used in this ticket"
         401:
           $ref: "./base.yaml#/responses/UnauthorizedError"
         404:
-          description: Service ticket with id was not found
-          example:
+          description: Service ticket with the specified ID was not found.
+          examples:
             application/json:
-              message: "Service ticket not found."
+              message: "Service ticket with the specified ID was not found."
 
-  /service_tickets/{id}:
+  /service_tickets/{ticket_id}:
     get:
       tags:
         - ServiceTickets
       summary: Get a single service ticket by ID
       parameters:
         - in: path
-          name: id
+          name: ticket_id
+          type: integer
           required: true
-          description: ID of the mechanic to retrieve
+          description: ID of the service ticket to retrieve
       responses:
         200:
           description: Successfully retrieved service ticket
           schema:
             $ref: "./base.yaml#/definitions/ServiceTicketsResponse"
         404:
-          description: Service ticket with id not found
-          example:
+          description: Service ticket with the specified ID was not found.
+          examples:
             application/json:
-              message: "Service ticket not found."
+              message: Service ticket with the specified ID was not found.
 
     delete:
       tags:
@@ -294,7 +297,7 @@ paths:
         - bearerAuth: []
       responses:
         200:
-          description: "Successfully Deleted service ticket"
+          description: Successfully deleted service ticket.
           schema:
             $ref: "#/definitions/DeleteServiceTicketResponse"
           examples:
@@ -303,10 +306,10 @@ paths:
         401:
           $ref: "./base.yaml#/responses/UnauthorizedError"
         404:
-          description: Service Ticket with id was not found
-          example:
+          description: Service ticket with the specified ID was not found
+          examples:
             application/json:
-              message: "Service ticket not found."
+              message: "Service ticket with the specified ID was not found"
 
 definitions:
   CreateServiceTicketPayload:

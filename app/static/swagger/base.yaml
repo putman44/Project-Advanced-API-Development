@@ -74,8 +74,16 @@ definitions:
         type: string
       email:
         type: string
-      DOB:
+      phone:
         type: string
+      role:
+        type: string
+      user_uuid:
+        type: string
+      token_version:
+        type: integer
+      salary:
+        type: integer
       password:
         type: string
 
@@ -119,6 +127,8 @@ definitions:
               type: integer
             quantity_used:
               type: integer
+            quantity_returned:
+              type: integer
       mechanics:
         type: "array"
         items:
@@ -141,8 +151,8 @@ paths:
     $ref: "./customers.yaml#/paths/~1customers~1login"
   /customers:
     $ref: "./customers.yaml#/paths/~1customers"
-  /customers/{id}:
-    $ref: "./customers.yaml#/paths/~1customers~1{id}"
+  /customers/{customer_id}:
+    $ref: "./customers.yaml#/paths/~1customers~1{customer_id}"
   /customers/my-tickets:
     $ref: "./customers.yaml#/paths/~1customers~1my-tickets"
 
@@ -150,8 +160,8 @@ paths:
     $ref: "./mechanics.yaml#/paths/~1mechanics~1login"
   /mechanics:
     $ref: "./mechanics.yaml#/paths/~1mechanics"
-  /mechanics/{id}:
-    $ref: "./mechanics.yaml#/paths/~1mechanics~1{id}"
+  /mechanics/{mechanic_id}:
+    $ref: "./mechanics.yaml#/paths/~1mechanics~1{mechanic_id}"
   /mechanics/my-tickets:
     $ref: "./mechanics.yaml#/paths/~1mechanics~1my-tickets"
 
@@ -159,11 +169,16 @@ paths:
     $ref: "./service_tickets.yaml#/paths/~1service_tickets"
   /service_tickets/most-tickets:
     $ref: "./service_tickets.yaml#/paths/~1service_tickets~1most-tickets"
-  /service_tickets/{id}:
-    $ref: "./service_tickets.yaml#/paths/~1service_tickets~1{id}"
-  /service_tickets/{id}/update-info:
-    $ref: "./service_tickets.yaml#/paths/~1service_tickets~1{id}~1update-info"
-  /service_tickets/{id}/update-mechanics:
-    $ref: "./service_tickets.yaml#/paths/~1service_tickets~1{id}~1update-mechanics"
-  /service_tickets/{id}/update-parts:
-    $ref: "./service_tickets.yaml#/paths/~1service_tickets~1{id}~1update-parts"
+  /service_tickets/{ticket_id}:
+    $ref: "./service_tickets.yaml#/paths/~1service_tickets~1{ticket_id}"
+  /service_tickets/{ticket_id}/update-info:
+    $ref: "./service_tickets.yaml#/paths/~1service_tickets~1{ticket_id}~1update-info"
+  /service_tickets/{ticket_id}/update-mechanics:
+    $ref: "./service_tickets.yaml#/paths/~1service_tickets~1{ticket_id}~1update-mechanics"
+  /service_tickets/{ticket_id}/update-parts:
+    $ref: "./service_tickets.yaml#/paths/~1service_tickets~1{ticket_id}~1update-parts"
+
+  /inventories:
+    $ref: "./inventories.yaml#/paths/~1inventories"
+  /inventories/{part_id}:
+    $ref: "./inventories.yaml#/paths/~1inventories~1{part_id}"

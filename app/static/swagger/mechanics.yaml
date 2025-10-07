@@ -9,22 +9,22 @@ paths:
           name: body
           required: true
           schema:
+            $ref: "./base.yaml#/definitions/LoginCredentials"
+      responses:
+        200:
+          description: Login successful
+          schema:
             $ref: "./base.yaml#/definitions/LoginResponse"
-    responses:
-      200:
-        description: Login successful
-      schema:
-        $ref: "./base.yaml#/definitions/LoginResponse"
-      401:
-        description: "Bad Request - Invalid Email or missing fields"
-        schema:
-          type: object
-          properties:
-            message:
-              type: string
-        examples:
-          application/json:
-            message: "Invalid email or password."
+        401:
+          description: "Bad Request - Invalid Email or missing fields"
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          examples:
+            application/json:
+              message: "Invalid email or password."
 
   /mechanics:
     post: #Post request
@@ -41,7 +41,7 @@ paths:
             $ref: "#/definitions/CreateMechanicPayload"
       responses:
         201:
-          descriptions: "Successful Mechanic Creation"
+          description: "Successful Mechanic Creation"
           schema:
             $ref: "#/definitions/CreateMechanicResponse"
           examples:
@@ -180,8 +180,8 @@ paths:
                 customer_id: 1
                 inventory_links: []
                 mechanics: []
-                VIN: 1234
-                service_date: 1111-11-11
+                VIN: "1234"
+                service_date: "1111-11-11"
                 service_desc: "work"
 
               case2:
@@ -190,26 +190,32 @@ paths:
         401:
           $ref: "./base.yaml#/responses/UnauthorizedError"
 
-  /mechanics/{id}:
+  /mechanics/{mechanic_id}:
     get:
       tags:
         - Mechanics
       summary: Get a single mechanic by ID
       parameters:
         - in: path
-          name: id
+          name: mechanic_id
           required: true
+          type: integer
           description: ID of the mechanic to retrieve
       responses:
         200:
           description: Successfully retrieved mechanic
           schema:
-            $ref: "#./base.yaml#/definitions/Mechanic"
+            $ref: "./base.yaml#/definitions/Mechanic"
         401:
           $ref: "./base.yaml#/responses/UnauthorizedError"
         404:
-          description: Mechanics with id was not found
-          example:
+          description: Mechanic with given id was not found
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          examples:
             application/json:
               message: "Mechanic not found."
 
@@ -287,7 +293,7 @@ definitions:
         type: integer
       role:
         type: string
-        example: customer
+        example: mechanic
       token_version:
         type: integer
       user_uuid:
