@@ -1,0 +1,374 @@
+paths:
+  /service_tickets:
+    post:
+      tags:
+        - ServiceTickets
+      summary: Create service ticket endpoint
+      description: Endpoint to create a service ticket, this is a token authenticated route, and the mechanic must be logged in to create a service ticket.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: "body"
+          name: "body"
+          description: Information required to create a service ticket.
+          required: true
+          schema:
+            $ref: "#/definitions/CreateServiceTicketPayload"
+      responses:
+        200:
+          description: Successfully created service ticket
+          schema:
+            $ref: "./base.yaml#/definitions/ServiceTicketsResponse"
+          examples:
+            case1:
+              id: 1
+              customer_id: 1
+              inventory_links: []
+              mechanics: []
+              VIN: 1234
+              service_date: 1111-11-11
+              service_desc: "work"
+        400:
+          description: Bad request - one or more fields failed validation.
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          examples:
+            application/json:
+              case1:
+                VIN: "VIN cannot be blank"
+                customer_id: "Not a valid integer"
+                mechanic_ids: "At least one mechanic must be assigned."
+                service_date: "Service date cannot be blank, must be YYYY-MM-DD"
+                service_desc: "Service description cannot be blank"
+              case2:
+                VIN: "Invalid VIN. Must be 17 characters (letters/digits, no I, O, Q)"
+                customer_id: "Customer with ID <customer_id> does not exist"
+                mechanic_ids: "One or more mechanic IDs are invalid"
+                service_date: "Service date must be in format YYYY-MM-DD"
+                service_desc: "Service description must be at least 5 characters long"
+              case3:
+                service_date: "Service date cannot be in the past"
+        401:
+          $ref: "./base.yaml#/responses/UnauthorizedError"
+
+    get:
+      tags:
+        - ServiceTickets
+      summary: Get all service tickets
+      description: Retrieve all service tickets. This is a token authenticated route, and the mechanic must be logged in to view all tickets.
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Retrieved Service Tickets
+          schema:
+            $ref: "./base.yaml#/definitions/ServiceTicketsResponse"
+          examples:
+            application/json:
+              case1:
+                id: 1
+                customer_id: 1
+                inventory_links: []
+                mechanics: []
+                VIN: 1234
+                service_date: 1111-11-11
+                service_desc: "work"
+
+              case2:
+                message: "There are no service ticket in the system."
+
+        401:
+          $ref: "./base.yaml#/responses/UnauthorizedError"
+
+  /service_tickets/most-tickets:
+    get:
+      tags:
+        - ServiceTickets
+      summary: Get mechanics and list them in order of most service tickets to least
+      responses:
+        200:
+          description: Retrieved Mechanics
+          schema:
+            $ref: "./base.yaml#/definitions/AllMechanicsResponse"
+          examples:
+            application/json:
+              case1:
+                id: 1
+                name: John Doe
+                phone: "999-999-9999"
+                email: johnd@email.com
+                password: password123
+                salary: 1234
+                role: "mechanic"
+                token_version: 1
+                user_uuid: 1234
+              case2:
+                message: "There are no mechanics in the system."
+
+  /service_tickets/{id}/update-info:
+    put:
+      tags:
+        - ServiceTickets
+      summary: Endpoint to update a service ticket info, can enter one or more fields
+      description: "Endpoint to update a service ticket, this is a token authenticated route, and the mechanic must be logged in to update the service ticket."
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: body
+          name: body
+          description: "Information required to update a service ticket, can be one or more fields."
+          required: true
+          schema:
+            $ref: "#/definitions/UpdateServiceTicketInfoPayload"
+      responses:
+        200:
+          description: Successfully updated service ticket
+          schema:
+            $ref: "./base.yaml#/definitions/ServiceTicketsResponse"
+          examples:
+            case1:
+              id: 1
+              customer_id: 1
+              inventory_links: []
+              mechanics: []
+              VIN: 1234
+              service_date: 1111-11-11
+              service_desc: "work"
+        400:
+          description: Bad request - one or more fields failed validation.
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          examples:
+            application/json:
+              case1:
+                VIN: "VIN cannot be blank"
+                service_date: "Service date cannot be blank, must be YYYY-MM-DD"
+                service_desc: "Service description cannot be blank"
+              case2:
+                VIN: "Invalid VIN. Must be 17 characters (letters/digits, no I, O, Q)"
+                service_date: "Service date must be in format YYYY-MM-DD"
+                service_desc: "Service description must be at least 5 characters long"
+              case3:
+                service_date: "Service date cannot be in the past"
+        401:
+          $ref: "./base.yaml#/responses/UnauthorizedError"
+        404:
+          description: Service ticket with id was not found
+          example:
+            application/json:
+              message: "Service ticket not found."
+
+  /service_tickets/{id}/update-mechanics:
+    put:
+      tags:
+        - ServiceTickets
+      summary: Endpoint to update a service ticket to add or remove mechanics, can enter one or more fields
+      description: "Endpoint to update a service ticket to add and remove mechanics, this is a token authenticated route, and the mechanic must be logged in to update the service ticket."
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: body
+          name: body
+          description: "Information required to update a service ticket, can be one or more fields."
+          required: true
+          schema:
+            $ref: "#/definitions/UpdateServiceTicketMechanicsPayload"
+      responses:
+        200:
+          description: Successfully updated service ticket
+          schema:
+            $ref: "./base.yaml#/definitions/ServiceTicketsResponse"
+          examples:
+            application/json:
+              case1:
+                id: 1
+                customer_id: 1
+                inventory_links: []
+                mechanics: []
+                VIN: 1234
+                service_date: 1111-11-11
+                service_desc: "work"
+        400:
+          description: Bad request - one or more fields failed validation.
+          schema:
+            type: object
+          examples:
+            application/json:
+              case1:
+                add_mechanic_ids: "One or more mechanic IDs are invalid"
+                remove_mechanic_ids: "One or more mechanic IDs are invalid"
+              case2:
+                error: "Cannot remove the last mechanic from service ticket; at least one must remain."
+        401:
+          $ref: "./base.yaml#/responses/UnauthorizedError"
+        404:
+          description: Service ticket with id was not found
+          example:
+            application/json:
+              message: "Service ticket not found."
+
+  /service_tickets/{id}/update-parts:
+    put:
+      tags:
+        - ServiceTickets
+      summary: Endpoint to update a service ticket to add or remove parts, can enter one or more fields
+      description: "Endpoint to update a service ticket to to add or remove parts, this is a token authenticated route, and the mechanic must be logged in to update the service ticket."
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: body
+          name: body
+          description: "Information required to update a service ticket, can be to say how many parts used or how many parts returned."
+          required: true
+          schema:
+            $ref: "#/definitions/UpdateServiceTicketPartsPayload"
+      responses:
+        200:
+          description: Successfully updated service ticket
+          schema:
+            $ref: "#/definitions/UpdateServiceTicketPartsResponse"
+          examples:
+            application/json:
+              message: "1 parts(s) added"
+              ticket_id: 1
+        400:
+          description: Bad request - one or more fields failed validation.
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          examples:
+            application/json:
+              case1:
+                inventory_id: Part id <part_id> does not exist
+                quantity_used: "quantity_used cannot be negative"
+                quantity_returned: quantity_used cannot be negative
+              case2:
+                schema: "At least one of quantity_used or quantity_returned must be provided"
+              case3:
+                error: Not enough {part.part_name}s in inventory
+              case4:
+                error: Cannot return more {part.part_name}s than used in this ticket"
+        401:
+          $ref: "./base.yaml#/responses/UnauthorizedError"
+        404:
+          description: Service ticket with id was not found
+          example:
+            application/json:
+              message: "Service ticket not found."
+
+  /service_tickets/{id}:
+    get:
+      tags:
+        - ServiceTickets
+      summary: Get a single service ticket by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID of the mechanic to retrieve
+      responses:
+        200:
+          description: Successfully retrieved service ticket
+          schema:
+            $ref: "./base.yaml#/definitions/ServiceTicketsResponse"
+        404:
+          description: Service ticket with id not found
+          example:
+            application/json:
+              message: "Service ticket not found."
+
+    delete:
+      tags:
+        - ServiceTickets
+      summary: "Endpoint to delete a service ticket"
+      description: "Endpoint to delete a service ticket. Requires token authentication, mechanic must be logged in to delete a service ticket."
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: "Successfully Deleted service ticket"
+          schema:
+            $ref: "#/definitions/DeleteServiceTicketResponse"
+          examples:
+            application/json:
+              message: "Service ticket <service_id> deleted successfully."
+        401:
+          $ref: "./base.yaml#/responses/UnauthorizedError"
+        404:
+          description: Service Ticket with id was not found
+          example:
+            application/json:
+              message: "Service ticket not found."
+
+definitions:
+  CreateServiceTicketPayload:
+    type: object
+    properties:
+      customer_id:
+        type: integer
+      VIN:
+        type: string
+      service_date:
+        type: string
+        format: date
+      service_desc:
+        type: string
+      mechanic_ids:
+        type: array
+        items:
+          type: integer
+
+  UpdateServiceTicketInfoPayload:
+    type: object
+    properties:
+      VIN:
+        type: string
+      service_date:
+        type: string
+        format: date
+      service_desc:
+        type: string
+
+  UpdateServiceTicketMechanicsPayload:
+    type: object
+    properties:
+      add_mechanic_ids:
+        type: array
+        items:
+          type: integer
+      remove_mechanic_ids:
+        type: array
+        items:
+          type: integer
+
+  UpdateServiceTicketPartsPayload:
+    type: object
+    properties:
+      inventory_id:
+        type: integer
+      quantity_used:
+        type: integer
+      quantity_returned:
+        type: integer
+
+  UpdateServiceTicketPartsResponse:
+    type: object
+    properties:
+      message:
+        type: string
+      ticket_id:
+        type: integer
+
+  DeleteServiceTicketResponse:
+    type: "object"
+    properties:
+      message:
+        type: "string"
