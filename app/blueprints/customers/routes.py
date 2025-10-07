@@ -15,7 +15,7 @@ def login():
         email = customer_credentials["email"]
         password = customer_credentials["password"]
     except ValidationError as e:
-        return jsonify(e.messages)
+        return jsonify(e.messages), 400
 
     query = select(Customer).where(Customer.email == email)
     customer = db.session.execute(query).scalars().first()
@@ -54,14 +54,28 @@ def create_customer():
 
 @customers_bp.route("/", methods=["GET"])
 def get_customers():
-    try:
-        page = int(request.args.get("page", 1))
-        per_page = int(request.args.get("per_page", 10))
-        customers = db.paginate(select(Customer), page=page, per_page=per_page)
-        return customers_schema.jsonify(customers), 200
-    except:
-        customers = db.session.query(Customer).all()
-        return customers_schema.jsonify(customers)
+    page = request.args.get("page", default=1, type=int)
+    per_page = request.args.get("per_page", default=10, type=int)
+
+    # Use pagination
+    pagination = db.paginate(select(Customer), page=page, per_page=per_page)
+    customers = pagination.items
+
+    if len(customers) < 1:
+        return jsonify({"message": "There are no customers in the system."}), 200
+
+    return (
+        jsonify(
+            {
+                "total": pagination.total,
+                "page": pagination.page,
+                "pages": pagination.pages,
+                "per_page": pagination.per_page,
+                "customers": customers_schema.dump(customers),
+            }
+        ),
+        200,
+    )
 
 
 @customers_bp.route("/<int:customer_id>", methods=["GET"])
@@ -78,18 +92,23 @@ def get_customer(customer_id):
 def get_my_tickets(user, user_role):
     service_tickets = user.service_tickets
 
+    if len(service_tickets) < 1:
+        return jsonify({"message": "You have no service tickets."})
+
     return service_tickets_schema.jsonify(service_tickets), 200
 
 
 @customers_bp.route("/", methods=["PUT"])
 @token_required
 def update_customer(user, user_role):
-
-    data = customer_schema.load(request.json, partial=True)
-    for key, value in data.items():
-        setattr(user, key, value)
-    db.session.commit()
-    return customer_schema.jsonify(user), 200
+    try:
+        data = customer_schema.load(request.json, partial=True)
+        for key, value in data.items():
+            setattr(user, key, value)
+        db.session.commit()
+        return customer_schema.jsonify(user), 200
+    except ValidationError as e:
+        return jsonify(e.messages), 400
 
 
 @customers_bp.route("/", methods=["DELETE"])
