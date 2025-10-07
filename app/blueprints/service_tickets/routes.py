@@ -66,6 +66,9 @@ def create_service_ticket(user, user_role):
 @token_required
 def get_service_tickets(user, user_role):
     tickets = db.session.execute(select(ServiceTicket)).scalars().all()
+
+    if len(tickets) < 1:
+        return jsonify({"message": "There are no service ticket in the system."})
     return service_tickets_schema.jsonify(tickets)
 
 
