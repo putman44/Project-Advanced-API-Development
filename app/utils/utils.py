@@ -23,12 +23,20 @@ def encode_token(user_uuid, role, token_version):
 def token_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        token = None
-        if "Authorization" in request.headers:
-            token = request.headers["Authorization"].split(" ")[1]
+        auth_header = request.headers.get("Authorization", "")
+        parts = auth_header.split()
 
-        if not token:
-            return jsonify({"message": "Token is missing!"}), 401
+        if len(parts) == 0:
+            return jsonify({"message": "Authorization header missing"}), 401
+        elif len(parts) == 1:
+            return jsonify({"message": "Bearer token missing after prefix"}), 401
+        elif parts[0].lower() != "bearer":
+            return (
+                jsonify({"message": "Authorization header must start with 'Bearer'"}),
+                401,
+            )
+
+        token = parts[1]
 
         try:
             data = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
