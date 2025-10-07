@@ -24,7 +24,10 @@ class CustomerSchema(ma.SQLAlchemyAutoSchema):
 
     @validates("password")
     def check_password(self, value, **kwargs):
-        return validate_password(value)
+        ctx = getattr(self, "context", {}) or {}
+        if not ctx.get("login", False):
+            return validate_password(value)
+        return value
 
     @validates("email")
     def check_email(self, value, **kwargs):
