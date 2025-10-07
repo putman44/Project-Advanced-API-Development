@@ -1,12 +1,13 @@
 from marshmallow import ValidationError, pre_load, validates
 from app.extensions import ma
 from app.models import ServiceTicket, Customer, Mechanic, db
-from datetime import date
+from datetime import date, datetime
 from app.functions import strip_input
 import re
 from app.blueprints.inventories.schemas import inventories_service_ticket_schema
 
 VIN_REGEX = re.compile(r"^[A-HJ-NPR-Z0-9]{17}$")  # Excludes I, O, Q
+DATE_REGEX = re.compile(r"^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$")
 
 
 class ServiceTicketSchema(ma.SQLAlchemyAutoSchema):
@@ -59,10 +60,6 @@ class ServiceTicketSchema(ma.SQLAlchemyAutoSchema):
             raise ValidationError(f"Customer with ID {value} does not exist")
         return value
 
-    @pre_load
-    def preprocess(self, data, **kwargs):
-        return strip_input(data)
-
     @validates("VIN")
     def validate_vin(self, value, **kwargs):
         if not value:
@@ -81,10 +78,17 @@ class ServiceTicketSchema(ma.SQLAlchemyAutoSchema):
     # return value
     @validates("service_date")
     def validate_service_date(self, value, **kwargs):
-        if not value:
+        if not value or not value.strip():
             raise ValidationError("Service date cannot be blank, must be YYYY-MM-DD")
-        if value < date.today():
+
+        if not DATE_REGEX.match(value):
+            raise ValidationError("Service date must be in format YYYY-MM-DD")
+
+        # Optional: check that the date is not in the past
+        service_date_obj = datetime.strptime(value, "%Y-%m-%d").date()
+        if service_date_obj < date.today():
             raise ValidationError("Service date cannot be in the past")
+
         return value
 
     @validates("service_desc")
@@ -98,24 +102,44 @@ class ServiceTicketSchema(ma.SQLAlchemyAutoSchema):
         return value
 
 
-class EditServiceTicketSchema(ServiceTicketSchema):
-    add_mechanic_ids = ma.List(ma.Int(), required=True)
-    remove_mechanic_ids = ma.List(ma.Int(), required=True)
-    VIN = ma.Str()
-    service_date = ma.Date()
-    service_desc = ma.Str()
+class EditServiceTicketInfoSchema(ServiceTicketSchema):
 
     class Meta:
         fields = (
-            "add_mechanic_ids",
-            "remove_mechanic_ids",
             "VIN",
             "service_date",
             "service_desc",
         )
 
 
+class EditServiceTicketMechanicsSchema(ServiceTicketSchema):
+    add_mechanic_ids = ma.List(ma.Int(), required=True)
+    remove_mechanic_ids = ma.List(ma.Int(), required=True)
+
+    class Meta:
+        fields = (
+            "add_mechanic_ids",
+            "remove_mechanic_ids",
+        )
+
+    def _validate_mechanic_ids(self, value):
+
+        mechanics = db.session.query(Mechanic).filter(Mechanic.id.in_(value)).all()
+        if len(mechanics) != len(value):
+            raise ValidationError("One or more mechanic IDs are invalid")
+        return value
+
+    @validates("add_mechanic_ids")
+    def validate_add_mechanic_ids(self, value, **kwargs):
+        return self._validate_mechanic_ids(value)
+
+    @validates("remove_mechanic_ids")
+    def validate_remove_mechanic_ids(self, value, **kwargs):
+        return self._validate_mechanic_ids(value)
+
+
 service_ticket_schema = ServiceTicketSchema()
 service_tickets_schema = ServiceTicketSchema(many=True)
 
-edit_service_ticket_schema = EditServiceTicketSchema()
+edit_service_ticket_info_schema = EditServiceTicketInfoSchema()
+edit_service_ticket_mechanics_schema = EditServiceTicketMechanicsSchema()
