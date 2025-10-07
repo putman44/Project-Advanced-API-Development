@@ -27,6 +27,8 @@ def create_part(user, user_role):
 @inventories_bp.route("/", methods=["GET"])
 def get_parts():
     parts = db.session.query(Inventory).all()
+    if len(parts) < 1:
+        return jsonify({"message": "There are no parts in the system."}), 200
     return inventories_schema.jsonify(parts), 200
 
 
