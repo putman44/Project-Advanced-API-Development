@@ -13,7 +13,8 @@ from . import service_tickets_bp
 from .schemas import (
     service_ticket_schema,
     service_tickets_schema,
-    edit_service_ticket_schema,
+    edit_service_ticket_mechanics_schema,
+    edit_service_ticket_info_schema,
 )
 from app.blueprints.mechanics.schemas import mechanics_schema
 from app.utils.utils import token_required, roles_required
@@ -43,13 +44,11 @@ def create_service_ticket(user, user_role):
         mechanic_ids = ticket_data.pop("mechanic_ids", [])
         new_ticket = ServiceTicket(**ticket_data)
 
-        if mechanic_ids:
-            mechanics = (
-                db.session.query(Mechanic).filter(Mechanic.id.in_(mechanic_ids)).all()
-            )
-            if len(mechanics) != len(mechanic_ids):
-                return jsonify({"error": "One or more mechanic IDs are invalid"}), 400
-            new_ticket.mechanics = mechanics
+        mechanics = (
+            db.session.query(Mechanic).filter(Mechanic.id.in_(mechanic_ids)).all()
+        )
+
+        new_ticket.mechanics = mechanics
 
         db.session.add(new_ticket)
         db.session.commit()
@@ -97,9 +96,8 @@ def get_mechanic_with_most_service_tickets():
 @token_required
 @roles_required(["mechanic"])
 def update_service_ticket_part(user, user_role, ticket_id):
-
     try:
-
+        # Load request data with schema
         ticket_parts_data = inventory_service_ticket_schema.load(request.json)
 
         service_ticket = db.session.get(ServiceTicket, ticket_id)
@@ -107,10 +105,6 @@ def update_service_ticket_part(user, user_role, ticket_id):
             return jsonify({"error": "Service ticket not found"}), 404
 
         part = db.session.get(Inventory, ticket_parts_data["inventory_id"])
-        quantity = ticket_parts_data["quantity_used"]
-        part_name = part.part_name
-        plural = "" if part_name.endswith("s") else "s" if quantity > 1 else ""
-        verb = "was" if quantity == 1 else "were"
         if not part:
             return (
                 jsonify(
@@ -120,46 +114,72 @@ def update_service_ticket_part(user, user_role, ticket_id):
                 ),
                 400,
             )
-        if part.quantity < ticket_parts_data["quantity_used"]:
-            return (
-                jsonify({"error": f"Not enough {part_name}{plural} in inventory"}),
-                400,
-            )
 
+        quantity_used = ticket_parts_data.get("quantity_used", 0)
+        quantity_returned = ticket_parts_data.get("quantity_returned", 0)
+
+        # Find existing inventory link for this ticket
         inventory_link = next(
             (
                 link
                 for link in service_ticket.inventory_links
-                if link.inventory_id == ticket_parts_data["inventory_id"]
+                if link.inventory_id == part.id
             ),
             None,
         )
 
-        if inventory_link:
-            inventory_link.quantity_used += ticket_parts_data["quantity_used"]
-        else:
+        if not inventory_link:
             inventory_link = InventoryServiceTicket(
                 service_ticket_id=ticket_id,
-                inventory_id=ticket_parts_data["inventory_id"],
-                quantity_used=ticket_parts_data["quantity_used"],
+                inventory_id=part.id,
+                quantity_used=0,
             )
             db.session.add(inventory_link)
 
-        part.quantity -= ticket_parts_data["quantity_used"]
+        # Handle adding parts
+        if quantity_used > 0:
+            if part.quantity < quantity_used:
+                return (
+                    jsonify({"error": f"Not enough {part.part_name}s in inventory"}),
+                    400,
+                )
+            inventory_link.quantity_used += quantity_used
+            part.quantity -= quantity_used
+
+        # Handle removing parts
+        if quantity_returned > 0:
+            if inventory_link.quantity_used < quantity_returned:
+                return (
+                    jsonify(
+                        {
+                            "error": f"Cannot return more {part.part_name}s than used in this ticket"
+                        }
+                    ),
+                    400,
+                )
+            inventory_link.quantity_used -= quantity_returned
+            part.quantity += quantity_returned
 
         db.session.commit()
 
+        messages = []
+        if quantity_used > 0:
+            messages.append(f"{quantity_used} {part.part_name}(s) added")
+        if quantity_returned > 0:
+            messages.append(f"{quantity_returned} {part.part_name}(s) removed")
+
         return (
             jsonify(
-                {
-                    "message": f"{quantity} {part_name}{plural} {verb} added to service ticket id {service_ticket.id}."
-                }
+                {"message": " and ".join(messages), "ticket_id": service_ticket.id}
             ),
             200,
         )
 
     except ValidationError as e:
         return jsonify(e.messages), 400
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 400
 
 
 @service_tickets_bp.route("/<int:ticket_id>/update-mechanics", methods=["PUT"])
@@ -167,7 +187,7 @@ def update_service_ticket_part(user, user_role, ticket_id):
 @roles_required(["mechanic"])
 def update_service_ticket_mechanics(user, user_role, ticket_id):
     try:
-        data = edit_service_ticket_schema.load(request.json)
+        data = edit_service_ticket_mechanics_schema.load(request.json)
 
         ticket = db.session.get(ServiceTicket, ticket_id)
         if not ticket:
@@ -224,12 +244,12 @@ def update_service_ticket_mechanics(user, user_role, ticket_id):
         return jsonify({"error": str(e)}), 400
 
 
-@service_tickets_bp.route("/<int:ticket_id>/service-ticket-info", methods=["PUT"])
+@service_tickets_bp.route("/<int:ticket_id>/update-info", methods=["PUT"])
 @token_required
 @roles_required(["mechanic"])
 def update_service_ticket_info(user, user_role, ticket_id):
     try:
-        data = edit_service_ticket_schema.load(request.json, partial=True)
+        data = edit_service_ticket_info_schema.load(request.json, partial=True)
 
         ticket = db.session.get(ServiceTicket, ticket_id)
         if not ticket:
