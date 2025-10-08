@@ -43,7 +43,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"asdf@domain.coms\",\n    \"password\": \"password44\"\n}",
+							"raw": "{\n    \"email\": \"asdf@gmail.coms\",\n    \"password\": \"password44\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -121,7 +121,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTkyNDQ2MTQsImlhdCI6MTc1OTI0MTAxNCwic3ViIjoiMSIsInJvbGUiOiJjdXN0b21lciIsInRva2VuX3ZlcnNpb24iOjF9.cGFLO0ldevlPsSzK7Mv4VYXR8I6xIIimvuqbphI-JiY",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTk5MzczMzksImlhdCI6MTc1OTkzMzczOSwidXNlcl91dWlkIjoiNDhhYzZhNDMtMTFmOS00MjNlLTk2NTEtNTcxYTg1MTY3OGJmIiwicm9sZSI6ImN1c3RvbWVyIiwidG9rZW5fdmVyc2lvbiI6MX0.he3pw0abOM8cv2SM_5Zyy9r0E5xA7Ioqp5OOsrOVvGA",
 									"type": "string"
 								}
 							]
@@ -130,7 +130,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": ""
+							"raw": "{}"
 						},
 						"url": {
 							"raw": "{{baseURL}}/customers/my-tickets",
@@ -153,7 +153,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTkyNTA1MjAsImlhdCI6MTc1OTI0NjkyMCwidXNlcl91dWlkIjoiMzhhZmE4MWEtMDgwZi00MDVhLThiMGItMGE0MGNiMWRmOWUyIiwicm9sZSI6ImN1c3RvbWVyIiwidG9rZW5fdmVyc2lvbiI6MX0.4lAGWgVV0mckZlxVVB33SZN5hyTjxL1HSMoaN7DOxS0",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTk4NDE1NDcsImlhdCI6MTc1OTgzNzk0NywidXNlcl91dWlkIjoiZWZjZDg1N2QtY2U0ZS00ZDZkLWE4OTktYTEwOTQ3MTM0NDY2Iiwicm9sZSI6ImN1c3RvbWVyIiwidG9rZW5fdmVyc2lvbiI6MX0.SS7cg1K5ruyRMOuU2OI5b9xQ-jVT8CqX_-rbFLRReaA",
 									"type": "string"
 								}
 							]
@@ -162,7 +162,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n    \"phone\":\"222-222-2222\"\n}",
+							"raw": "{\n    \"email\":\"asdf@gmail.coms\",\n    \"phone\":\"222-222-4444\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -250,7 +250,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"phil@gmail.com\",\n    \"password\":\"Phil4444\"\n    \n}",
+							"raw": "{\n    \"email\": \"taylor@gmail.com\",\n    \"password\":\"password44\"\n    \n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -413,7 +413,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTkyNTA1NTIsImlhdCI6MTc1OTI0Njk1MiwidXNlcl91dWlkIjoiMDNlOGYyZTEtODkxYi00YzI5LThkZmMtNjAwZTJmZTdmYTljIiwicm9sZSI6Im1lY2hhbmljIiwidG9rZW5fdmVyc2lvbiI6MX0.O8m3SLLnBbDBX4mGN48tvv4LXjMsYm_jJMaiVUyuXao",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTk4NTI0ODcsImlhdCI6MTc1OTg0ODg4NywidXNlcl91dWlkIjoiOGZjNGQzOWMtMDBmYS00MTc3LTg1MjAtZjUzYzAwYmNkZjMyIiwicm9sZSI6Im1lY2hhbmljIiwidG9rZW5fdmVyc2lvbiI6MX0.dZyq3tKCokO879Z6tKHL8VXTGYp3BzQH2jnz-hb4mio",
 									"type": "string"
 								}
 							]
@@ -422,7 +422,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n        \"customer_id\": \"1\",\n        \"VIN\": \"1HGCM82633A123456\",\n        \"service_date\": \"2025-12-12\",\n        \"service_desc\": \"needs new engine\",\n        \"mechanic_ids\": [1]\n    }",
+							"raw": "{\n        \"customer_id\": \"1\",\n        \"VIN\": \"1HGCM82633A123456\",\n        \"service_date\": \"2025-12-12\",\n        \"service_desc\": \"needs new tires\",\n        \"mechanic_ids\": [1]\n    }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -538,7 +538,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTkzNTQ5ODEsImlhdCI6MTc1OTM1MTM4MSwidXNlcl91dWlkIjoiNDU0YTdlMGItNjMwNi00ZmM1LWFmYmQtNGRhZmI4NDg2YzJlIiwicm9sZSI6Im1lY2hhbmljIiwidG9rZW5fdmVyc2lvbiI6MX0.Gz0ITBRXNu5Bpxi_0tvkV7hvaCvPwYJ-Wc9IVaUXx0g",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTk4NTI0ODcsImlhdCI6MTc1OTg0ODg4NywidXNlcl91dWlkIjoiOGZjNGQzOWMtMDBmYS00MTc3LTg1MjAtZjUzYzAwYmNkZjMyIiwicm9sZSI6Im1lY2hhbmljIiwidG9rZW5fdmVyc2lvbiI6MX0.dZyq3tKCokO879Z6tKHL8VXTGYp3BzQH2jnz-hb4mio",
 									"type": "string"
 								}
 							]
@@ -547,7 +547,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"VIN\": \"1HGCM82633A123456\",\n    \"service_date\": \"2025-12-1\",\n    \"service_desc\": \"needs new engine, needs new tires\"\n}",
+							"raw": "{\n    \"VIN\": \"1HGCM82633A123456\",\n    \"service_date\": \"2025-12-12\",\n    \"service_desc\": \"needs new engine, needs new tires\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -555,14 +555,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseURL}}/service_tickets/1/service-ticket-info",
+							"raw": "{{baseURL}}/service_tickets/5/update-info",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"service_tickets",
-								"1",
-								"service-ticket-info"
+								"5",
+								"update-info"
 							]
 						}
 					},
@@ -657,7 +657,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTkzMzI2ODMsImlhdCI6MTc1OTMyOTA4MywidXNlcl91dWlkIjoiY2U5ZDQzM2EtNjA1YS00Y2I2LWFlNzYtODRhYzliY2ExOTNlIiwicm9sZSI6Im1lY2hhbmljIiwidG9rZW5fdmVyc2lvbiI6MX0.tDAzk4lCrhF5TkOuSmAJuza_a_WAaQqJhVDDANpoZvo",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTk4NzQ0ODIsImlhdCI6MTc1OTg3MDg4MiwidXNlcl91dWlkIjoiOGZjNGQzOWMtMDBmYS00MTc3LTg1MjAtZjUzYzAwYmNkZjMyIiwicm9sZSI6Im1lY2hhbmljIiwidG9rZW5fdmVyc2lvbiI6MX0.0evNToRcOSEC3DmHtv3BNrSp7ZAYyuKGBxbxJIy4_mc",
 									"type": "string"
 								}
 							]
@@ -666,7 +666,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n   \"part_name\":\"10w-40 engine oil\",\n   \"price\":5.99,\n   \"quantity\":23\n}",
+							"raw": "{\n   \"part_name\":\"Headlight\",\n   \"price\":\"59.99\",\n   \"quantity\":\"20\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -745,7 +745,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTkzMzI2ODMsImlhdCI6MTc1OTMyOTA4MywidXNlcl91dWlkIjoiY2U5ZDQzM2EtNjA1YS00Y2I2LWFlNzYtODRhYzliY2ExOTNlIiwicm9sZSI6Im1lY2hhbmljIiwidG9rZW5fdmVyc2lvbiI6MX0.tDAzk4lCrhF5TkOuSmAJuza_a_WAaQqJhVDDANpoZvo",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTk4ODA2MDMsImlhdCI6MTc1OTg3NzAwMywidXNlcl91dWlkIjoiOGZjNGQzOWMtMDBmYS00MTc3LTg1MjAtZjUzYzAwYmNkZjMyIiwicm9sZSI6Im1lY2hhbmljIiwidG9rZW5fdmVyc2lvbiI6MX0.DbnvKQizZyEUQ5V-FhoN1_rFsh74hGykG8cLr-3g4ss",
 									"type": "string"
 								}
 							]
@@ -754,7 +754,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": 1,\n    \"part_name\": \"10w-40 engine oil\",\n    \"price\": 6.99,\n    \"quantity\": 44\n}",
+							"raw": "{\n  \n    \"part_name\": \"Window washer fluid\",\n    \"price\":20.99,\n    \"quantity\":100 \n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -762,13 +762,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseURL}}/inventories/1",
+							"raw": "{{baseURL}}/inventories/2",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"inventories",
-								"1"
+								"2"
 							]
 						}
 					},
