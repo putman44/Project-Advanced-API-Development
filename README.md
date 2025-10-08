@@ -148,4 +148,4 @@ To run:
 
     npm run watch-swagger
 
-    Whenever you update any Swagger YAML file, the merged specification will automatically regenerate in swagger_build/merged.yaml. You can then view it in Swagger UI.
+Whenever you update any Swagger YAML file, the merged specification will automatically regenerate in swagger_build/merged.yaml. You can then view it in Swagger UI.
