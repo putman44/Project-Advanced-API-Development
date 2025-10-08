@@ -19,13 +19,32 @@ A RESTful API for managing customers, mechanics, inventory parts, and service ti
 
 ## Features
 
-- CRUD operations for customers, mechanics, inventories, and service tickets.
-- One-to-many relationships (Customer → ServiceTicket).
-- Many-to-many relationships with extra data (ServiceTicket ↔ Mechanic via ServiceTicketMechanic).
-- Many-to-many relationships (ServiceTicket ↔ Inventory via ServiceTicketInventory).
-- Marshmallow schemas for serialization and validation.
-- Role-based access control (RBAC) with JWT authentication.
-- Rate limiting to prevent abuse and caching.
+## Features
+
+- **Full CRUD Operations:** Manage customers, mechanics, inventory parts, and service tickets with create, read, update, and delete endpoints.
+- **Relational Database Support:**
+  - One-to-many relationships (Customer → ServiceTicket)
+  - Many-to-many relationships with extra fields (ServiceTicket ↔ Mechanic via ServiceTicketMechanic)
+  - Many-to-many relationships (ServiceTicket ↔ Inventory via ServiceTicketInventory)
+- **Role-Based Access Control (RBAC):**
+  - Restrict actions based on user roles (mechanic vs. customer)
+  - JWT authentication ensures secure endpoints
+- **Automatic Validation and Serialization:**
+  - Marshmallow schemas validate incoming data and serialize responses
+- **Rate Limiting and Caching:**
+  - Prevent abuse of API endpoints using rate limiting
+  - Cache frequently accessed data for improved performance
+- **Swagger UI Integration:**
+  - Interactive API documentation allows developers to explore and test endpoints easily
+- **Swagger CLI + Nodemon Support:**
+  - Automatically rebuild merged Swagger documentation when YAML files change
+- **Unit Testing Coverage:**
+  - Pre-built Python `unittest` tests for all major endpoints
+  - Tests cover CRUD operations, role restrictions, and edge cases
+- **Error Handling:**
+  - Provides clear JSON responses for invalid IDs, forbidden actions, or validation errors
+- **Extensible Architecture:**
+  - Built with the Flask Application Factory pattern for easy expansion and modularity
 
 ---
 
