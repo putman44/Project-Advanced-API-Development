@@ -94,12 +94,14 @@ def get_mechanics_my_tickets(user, user_role):
 @token_required
 @roles_required("mechanic")
 def update_mechanic(user, user_role):
-
-    data = mechanic_schema.load(request.json, partial=True)
-    for key, value in data.items():
-        setattr(user, key, value)
-    db.session.commit()
-    return mechanic_schema.jsonify(user), 200
+    try:
+        data = mechanic_schema.load(request.json, partial=True)
+        for key, value in data.items():
+            setattr(user, key, value)
+        db.session.commit()
+        return mechanic_schema.jsonify(user), 200
+    except ValidationError as e:
+        return jsonify(e.messages), 400
 
 
 @mechanics_bp.route("/", methods=["DELETE"])
@@ -125,6 +127,6 @@ def delete_mechanic(user, user_role):
     db.session.delete(user)
     db.session.commit()
     return (
-        jsonify({"message": f"Mechanic id: {user.id} deleted successfully."}),
+        jsonify({"message": f"Mechanic id: {user.id}, successfully deleted"}),
         200,
     )
