@@ -128,13 +128,13 @@ Test results will show pass/fail status for each endpoint and function.
 
 ### What is Tested
 
-    CRUD operations for customers, mechanics, inventories, and service tickets.
+CRUD operations for customers, mechanics, inventories, and service tickets.
 
-    Role-based access restrictions.
+Role-based access restrictions.
 
-    Service ticket assignments and part usage.
+Service ticket assignments and part usage.
 
-    Edge cases like invalid IDs and forbidden actions.
+Edge cases like invalid IDs and forbidden actions.
 
 ## Swagger CLI and Nodemon
 
