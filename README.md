@@ -49,6 +49,8 @@ source .venv/bin/activate  # Mac/Linux
 venv\Scripts\activate     # Windows
 
 pip install Flask Flask-SQLAlchemy Flask-Marshmallow mysql-connector-python marshmallow-sqlalchemy Flask-Limiter Flask-Caching python-jose alembic flask-swagger flask_swagger_ui @apidevtools/swagger-cli nodemon
+
+pip freeze > requirements.txt
 ```
 
 ## Entity-Relationship-Diagram
