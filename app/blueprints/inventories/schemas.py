@@ -48,7 +48,6 @@ class InventoryServiceTicketSchema(ma.SQLAlchemySchema):
 
     class Meta:
         model = InventoryServiceTicket
-        include_relationships = True
         fields = (
             "inventory_id",
             "quantity_used",
