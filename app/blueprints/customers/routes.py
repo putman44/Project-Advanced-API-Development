@@ -93,7 +93,7 @@ def get_my_tickets(user, user_role):
     service_tickets = user.service_tickets
 
     if len(service_tickets) < 1:
-        return jsonify({"message": "You have no service tickets."})
+        return jsonify({"message": "You have no service tickets"})
 
     return service_tickets_schema.jsonify(service_tickets), 200
 
@@ -117,6 +117,6 @@ def delete_customer(user, user_role):
     db.session.delete(user)
     db.session.commit()
     return (
-        jsonify({"message": f"Customer id: {user.id}, successfully deleted."}),
+        jsonify({"message": f"Customer id: {user.id}, successfully deleted"}),
         200,
     )
