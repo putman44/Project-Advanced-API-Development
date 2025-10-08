@@ -19,7 +19,9 @@ class ServiceTicketSchema(ma.SQLAlchemyAutoSchema):
     mechanic_ids = ma.List(ma.Int(), required=True)
 
     inventory_links = ma.Nested(
-        inventories_service_ticket_schema, exclude=["service_ticket", "inventory"]
+        inventories_service_ticket_schema,
+        many=True,
+        dump_only=True,
     )
 
     mechanics = ma.Nested(
