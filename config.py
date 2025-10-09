@@ -1,6 +1,9 @@
+import os
+
+
 class DevelopmentConfig:
     SQLALCHEMY_DATABASE_URI = (
-        "mysql+mysqlconnector://root:Gocolts44@localhost/factory_db"
+        "mysql+mysqlconnector://root:Gocolts44@localhost/Project_Advanced_API_Dev"
     )
     DEBUG = True
     CACHE_TYPE = "SimpleCache"
@@ -8,14 +11,11 @@ class DevelopmentConfig:
 
 
 class TestingConfig:
-    pass
+    SQLALCHEMY_DATABASE_URI = "sqlite:///testing.db"
+    DEBUG = True
+    CACHE_TYPE = "SimpleCache"
 
 
 class ProductionConfig:
-    pass
-
-
-class TestingConfig:
-    SQLALCHEMY_DATABASE_URI = "sqlite:///testing.db"
-    DEBUG = True
+    SQLALCHEMY_DATABASE_URI = os.environ.get("SQLALCHEMY_DATABASE_URI")
     CACHE_TYPE = "SimpleCache"

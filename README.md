@@ -61,15 +61,14 @@ A RESTful API for managing customers, mechanics, inventory parts, and service ti
 
 ```bash
 git clone https://github.com/putman44/Project-Advanced-API-Development
-cd Project-Advanced-API-Development.git
+cd Project-Advanced-API-Development
 
 python3 -m venv .venv
 source .venv/bin/activate  # Mac/Linux
 venv\Scripts\activate     # Windows
 
-pip install Flask Flask-SQLAlchemy Flask-Marshmallow mysql-connector-python marshmallow-sqlalchemy Flask-Limiter Flask-Caching python-jose alembic flask-swagger flask_swagger_ui @apidevtools/swagger-cli nodemon
-
-pip freeze > requirements.txt
+npm install -g @apidevtools/swagger-cli nodemon
+pip install -r requirements.txt
 ```
 
 ## Entity-Relationship-Diagram

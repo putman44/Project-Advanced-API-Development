@@ -13,7 +13,7 @@ SWAGGER_URL = "/api/docs"  # URL for exposing Swagger UI (without trailing '/')
 API_URL = "/static/swagger_build/merged.yaml"  # Our API URL (can of course be a local resource)
 
 swaggerui_blueprint = get_swaggerui_blueprint(
-    SWAGGER_URL, API_URL, config={"app_name": "Your API's Name"}
+    SWAGGER_URL, API_URL, config={"app_name": "Project Advanced API Development"}
 )
 
 

@@ -1,11 +1,12 @@
 from app import create_app
 from app.models import db
 
-app = create_app("DevelopmentConfig")
+app = create_app("ProductionConfig")
 # Start virtual environment for Mac
 # python3 -m venv .venv --copies
 # source .venv/bin/activate
-# pip install Flask Flask-SQLAlchemy Flask-Marshmallow mysql-connector-python marshmallow-sqlalchemy Flask-Limiter Flask-Caching python-jose alembic flask-swagger flask_swagger_ui @apidevtools/swagger-cli nodemon
+# npm install -g @apidevtools/swagger-cli nodemon
+# pip install -r requirements.txt
 # pip freeze > requirements.txt
 
 # for the merged yaml files run npm run watch-swagger in virtual environment,
@@ -18,4 +19,7 @@ with app.app_context():
     # db.drop_all()
     db.create_all()
 
-app.run()
+# do not need this because gunicorn, app.run()
+
+
+# gunicorn flask_app:app

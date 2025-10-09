@@ -4,8 +4,11 @@ from jose import jwt, exceptions as jose_exceptions
 from functools import wraps
 from flask import request, jsonify
 from app.models import db, Customer, Mechanic
+import os
 
-SECRET_KEY = "super secret secret"
+SECRET_KEY = os.environ.get("SECRET_KEY") or "super secret secrets"
+# or statement is for testing,
+# github will use the or for testing purposes because it wont have the actual key
 
 
 def encode_token(user_uuid, role, token_version):
