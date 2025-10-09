@@ -19,8 +19,6 @@ A RESTful API for managing customers, mechanics, inventory parts, and service ti
 
 ## Features
 
-## Features
-
 - **Full CRUD Operations:** Manage customers, mechanics, inventory parts, and service tickets with create, read, update, and delete endpoints.
 - **Relational Database Support:**
   - One-to-many relationships (Customer → ServiceTicket)
@@ -38,9 +36,12 @@ A RESTful API for managing customers, mechanics, inventory parts, and service ti
   - Interactive API documentation allows developers to explore and test endpoints easily
 - **Swagger CLI + Nodemon Support:**
   - Automatically rebuild merged Swagger documentation when YAML files change
-- **Unit Testing Coverage:**
-  - Pre-built Python `unittest` tests for all major endpoints
-  - Tests cover CRUD operations, role restrictions, and edge cases
+- **Unit Testing & CI/CD:**
+  - Python `unittest` coverage for all major endpoints
+  - GitHub Actions pipeline automates testing, dependency caching, and deployment
+- **Render Deployment:**
+  - PostgreSQL database hosted on Render with secure connections
+  - Automatic deployment after successful tests
 - **Error Handling:**
   - Provides clear JSON responses for invalid IDs, forbidden actions, or validation errors
 - **Extensible Architecture:**
@@ -51,7 +52,7 @@ A RESTful API for managing customers, mechanics, inventory parts, and service ti
 ## Tech Stack
 
 - **Backend:** Python, Flask
-- **Database:** MySQL
+- **Database:** Supports MySQL locally, PostgreSQL on Render, and SQLite for testing.
 - **ORM:** SQLAlchemy
 - **Serialization:** Flask-Marshmallow, Marshmallow-SQLAlchemy
 
@@ -99,16 +100,16 @@ pip install -r requirements.txt
 
 ### Service Tickets
 
-| Method | Endpoint                                                           | Description                                     |
-| ------ | ------------------------------------------------------------------ | ----------------------------------------------- |
-| POST   | /service_tickets                                                   | Create a service ticket                         |
-| GET    | /service_tickets                                                   | List all service tickets                        |
-| GET    | /service_tickets/&lt;int:service_ticket_id&gt;                     | Get a service ticket                            |
-| GET    | /service_tickets/most-tickets                                      | Get the mechanics with the most service tickets |
-| PUT    | /service_tickets/&lt;int:service_ticket_id&gt;/update-part         | Update a service ticket parts                   |
-| PUT    | /service_tickets/&lt;int:service_ticket_id&gt;/update-mechanics    | Update a service ticket mechanics               |
-| PUT    | /service_tickets/&lt;int:service_ticket_id&gt;/service-ticket-info | Update a service ticket's information           |
-| DELETE | /service_tickets/&lt;int:service_ticket_id&gt;                     | Delete a service ticket                         |
+| Method | Endpoint                                                        | Description                                     |
+| ------ | --------------------------------------------------------------- | ----------------------------------------------- |
+| POST   | /service_tickets                                                | Create a service ticket                         |
+| GET    | /service_tickets                                                | List all service tickets                        |
+| GET    | /service_tickets/&lt;int:service_ticket_id&gt;                  | Get a service ticket                            |
+| GET    | /service_tickets/most-tickets                                   | Get the mechanics with the most service tickets |
+| PUT    | /service_tickets/&lt;int:service_ticket_id&gt;/update-parts     | Update a service ticket parts                   |
+| PUT    | /service_tickets/&lt;int:service_ticket_id&gt;/update-mechanics | Update a service ticket mechanics               |
+| PUT    | /service_tickets/&lt;int:service_ticket_id&gt;/update-info      | Update a service ticket's information           |
+| DELETE | /service_tickets/&lt;int:service_ticket_id&gt;                  | Delete a service ticket                         |
 
 ### Inventories
 
@@ -129,7 +130,7 @@ pip install -r requirements.txt
 This project includes Swagger documentation to easily explore and test the API.
 
 Once the app is running, visit:
-https://project-advanced-api-development.onrender.com/api/docs/
+https://project-advanced-api-development.onrender.com/api/docs/#/
 
 ## Unit Testing
 
@@ -160,7 +161,7 @@ Edge cases like invalid IDs and forbidden actions.
 
 This project uses swagger-cli and nodemon to manage and automatically rebuild the Swagger API documentation.
 
-    @apidevtools/swagger-cli – Used to bundle multiple Swagger YAML files into a single merged specification.
+    swagger-cli – Used to bundle multiple Swagger YAML files into a single merged specification.
 
     nodemon – Watches files for changes and automatically executes a command when changes are detected.
 
