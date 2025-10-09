@@ -129,7 +129,7 @@ pip install -r requirements.txt
 This project includes Swagger documentation to easily explore and test the API.
 
 Once the app is running, visit:
-http://127.0.0.1:5000/api/docs/
+https://project-advanced-api-development.onrender.com/api/docs/
 
 ## Unit Testing
 
