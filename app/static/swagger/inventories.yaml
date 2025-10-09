@@ -69,17 +69,18 @@ paths:
                 message: "There are no parts in the system."
 
   /inventories/{part_id}:
+    parameters:
+      - name: part_id
+        in: path
+        required: true
+        type: integer
+        description: The ID of the part to retrieve
     get:
       tags:
         - Inventories
       summary: Get part in inventory
       description: Endpoint to get a part from inventory
-      parameters:
-        - name: part_id
-          in: path
-          required: true
-          type: integer
-          description: The ID of the part to retrieve
+
       responses:
         200:
           description: Retireved inventory part
@@ -110,11 +111,6 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - name: part_id
-          in: path
-          required: true
-          type: integer
-          description: ID of the part to update
         - in: body
           name: body
           description: "Information to update an inventory part, can be one or more fields."
@@ -166,12 +162,7 @@ paths:
       description: "Endpoint to delete a inventory part, requires token authentication, mechanic must be logged in to delete the part from inventory."
       security:
         - bearerAuth: []
-      parameters:
-        - name: part_id
-          in: path
-          required: true
-          type: integer
-          description: The ID of the part to retrieve
+
       responses:
         200:
           description: "Successfully deleted inventory part"
