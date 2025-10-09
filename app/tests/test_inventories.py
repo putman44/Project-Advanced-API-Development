@@ -1,7 +1,6 @@
 from app import create_app
 from app.models import Mechanic, Inventory, db
 import unittest
-from app.utils.utils import encode_token
 from app.tests.helper_function import login_mechanic
 
 # python -m unittest discover -s app/tests
@@ -27,7 +26,7 @@ class TestInventories(unittest.TestCase):
             self.inventory_part = Inventory(
                 part_name="Headlights", price=59.99, quantity=20
             )
-            
+
             db.session.add_all([self.mechanic, self.inventory_part])
             db.session.commit()
             self.inventory_part_id = self.inventory_part.id

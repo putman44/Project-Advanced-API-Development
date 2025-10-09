@@ -1,7 +1,6 @@
 from app import create_app
-from app.models import Customer, ServiceTicket, db
+from app.models import Customer, db
 import unittest
-from app.utils.utils import encode_token
 from app.tests.helper_function import login_customer
 
 # python -m unittest discover -s app/tests
