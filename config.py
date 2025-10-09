@@ -11,9 +11,14 @@ class DevelopmentConfig:
 
 
 class TestingConfig:
-    SQLALCHEMY_DATABASE_URI = "sqlite:///testing.db"
     DEBUG = True
     CACHE_TYPE = "SimpleCache"
+
+    # Use in-memory DB for CI, file-based locally
+    if os.environ.get("CI") == "true":
+        SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
+    else:
+        SQLALCHEMY_DATABASE_URI = "sqlite:///testing.db"
 
 
 class ProductionConfig:
