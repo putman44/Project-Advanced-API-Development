@@ -118,9 +118,14 @@ paths:
       security:
         - bearerAuth: []
       parameters:
+        - in: path
+          name: ticket_id
+          required: true
+          type: integer
+          description: ID of the service ticket to update
         - in: body
           name: body
-          description: "Information required to update a service ticket, can be one or more fields."
+          description: "Information required to update a service ticket's info, can be one or more fields."
           required: true
           schema:
             $ref: "#/definitions/UpdateServiceTicketInfoPayload"
@@ -175,9 +180,14 @@ paths:
       security:
         - bearerAuth: []
       parameters:
+        - in: path
+          name: ticket_id
+          required: true
+          type: integer
+          description: ID of the service ticket to update
         - in: body
           name: body
-          description: "Information required to update a service ticket, can be one or more fields."
+          description: "Information required to update a service ticket's mechanics, can be one or more fields."
           required: true
           schema:
             $ref: "#/definitions/UpdateServiceTicketMechanicsPayload"
@@ -224,9 +234,14 @@ paths:
       security:
         - bearerAuth: []
       parameters:
+        - in: path
+          name: ticket_id
+          required: true
+          type: integer
+          description: ID of the service ticket to update
         - in: body
           name: body
-          description: "Information required to update a service ticket, can be to say how many parts used or how many parts returned."
+          description: "Information required to update a service ticket's inventory parts, fields are for used parts and returned parts."
           required: true
           schema:
             $ref: "#/definitions/UpdateServiceTicketPartsPayload"
@@ -295,6 +310,12 @@ paths:
       description: "Endpoint to delete a service ticket. Requires token authentication, mechanic must be logged in to delete a service ticket."
       security:
         - bearerAuth: []
+      parameters:
+        - in: path
+          name: ticket_id
+          required: true
+          type: integer
+          description: ID of the service ticket to update
       responses:
         200:
           description: Successfully deleted service ticket.

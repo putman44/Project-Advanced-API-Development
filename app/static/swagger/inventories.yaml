@@ -166,6 +166,12 @@ paths:
       description: "Endpoint to delete a inventory part, requires token authentication, mechanic must be logged in to delete the part from inventory."
       security:
         - bearerAuth: []
+      parameters:
+        - name: part_id
+          in: path
+          required: true
+          type: integer
+          description: The ID of the part to retrieve
       responses:
         200:
           description: "Successfully deleted inventory part"

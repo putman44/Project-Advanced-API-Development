@@ -146,6 +146,120 @@ definitions:
       service_desc:
         type: "string"
 
+  Customer:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      email:
+        type: string
+      phone:
+        type: string
+      password:
+        type: string
+      role:
+        type: string
+        example: customer
+      token_version:
+        type: integer
+      user_uuid:
+        type: string
+
+  CreateCustomerPayload:
+    type: object
+    properties:
+      name:
+        type: string
+      email:
+        type: string
+      phone:
+        type: string
+      password:
+        type: string
+    required:
+      - name
+      - email
+      - phone
+      - password
+
+  CreateCustomerResponse:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      email:
+        type: string
+      phone:
+        type: string
+      password:
+        type: string
+      role:
+        type: string
+        example: customer
+      token_version:
+        type: integer
+      user_uuid:
+        type: string
+
+  AllCustomersResponse:
+    type: object
+    properties:
+      total:
+        type: integer
+      page:
+        type: integer
+      pages:
+        type: integer
+      per_page:
+        type: integer
+      customers:
+        type: array
+        items:
+          $ref: "#/definitions/Customer"
+
+  UpdateCustomerPayload:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      email:
+        type: "string"
+      phone:
+        type: "string"
+      password:
+        type: "string"
+
+  UpdateCustomerResponse:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+      name:
+        type: "string"
+      email:
+        type: "string"
+      phone:
+        type: "string"
+      password:
+        type: "string"
+      role:
+        type: string
+        example: customer
+      token_version:
+        type: integer
+      user_uuid:
+        type: string
+
+  DeleteCustomerResponse:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+
 paths:
   /customers/login:
     $ref: "./customers.yaml#/paths/~1customers~1login"

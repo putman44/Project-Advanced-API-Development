@@ -138,6 +138,113 @@ definitions:
         format: date
       service_desc:
         type: string
+  Customer:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      email:
+        type: string
+      phone:
+        type: string
+      password:
+        type: string
+      role:
+        type: string
+        example: customer
+      token_version:
+        type: integer
+      user_uuid:
+        type: string
+  CreateCustomerPayload:
+    type: object
+    properties:
+      name:
+        type: string
+      email:
+        type: string
+      phone:
+        type: string
+      password:
+        type: string
+    required:
+      - name
+      - email
+      - phone
+      - password
+  CreateCustomerResponse:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      email:
+        type: string
+      phone:
+        type: string
+      password:
+        type: string
+      role:
+        type: string
+        example: customer
+      token_version:
+        type: integer
+      user_uuid:
+        type: string
+  AllCustomersResponse:
+    type: object
+    properties:
+      total:
+        type: integer
+      page:
+        type: integer
+      pages:
+        type: integer
+      per_page:
+        type: integer
+      customers:
+        type: array
+        items:
+          $ref: '#/definitions/Customer'
+  UpdateCustomerPayload:
+    type: object
+    properties:
+      name:
+        type: string
+      email:
+        type: string
+      phone:
+        type: string
+      password:
+        type: string
+  UpdateCustomerResponse:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      email:
+        type: string
+      phone:
+        type: string
+      password:
+        type: string
+      role:
+        type: string
+        example: customer
+      token_version:
+        type: integer
+      user_uuid:
+        type: string
+  DeleteCustomerResponse:
+    type: object
+    properties:
+      message:
+        type: string
 paths:
   /customers/login:
     post:
@@ -177,44 +284,12 @@ paths:
           description: Information required to create a new customer.
           required: true
           schema:
-            type: object
-            properties:
-              name:
-                type: string
-              email:
-                type: string
-              phone:
-                type: string
-              password:
-                type: string
-            required:
-              - name
-              - email
-              - phone
-              - password
+            $ref: '#/definitions/CreateCustomerPayload'
       responses:
         '200':
           description: Successful Customer Creation
           schema:
-            type: object
-            properties:
-              id:
-                type: integer
-              name:
-                type: string
-              email:
-                type: string
-              phone:
-                type: string
-              password:
-                type: string
-              role:
-                type: string
-                example: customer
-              token_version:
-                type: integer
-              user_uuid:
-                type: string
+            $ref: '#/definitions/CreateCustomerResponse'
           examples:
             application/json:
               id: 1
@@ -249,20 +324,7 @@ paths:
         '200':
           description: Retrieved Customers
           schema:
-            type: object
-            properties:
-              total:
-                type: integer
-              page:
-                type: integer
-              pages:
-                type: integer
-              per_page:
-                type: integer
-              customers:
-                type: array
-                items:
-                  $ref: '#/paths/~1customers~1%7Bcustomer_id%7D/get/responses/200/schema'
+            $ref: '#/definitions/AllCustomersResponse'
           examples:
             application/json:
               case1:
@@ -294,39 +356,12 @@ paths:
           description: 'Information to update a customer, can be one or more fields.'
           required: true
           schema:
-            type: object
-            properties:
-              name:
-                type: string
-              email:
-                type: string
-              phone:
-                type: string
-              password:
-                type: string
+            $ref: '#/definitions/UpdateCustomerPayload'
       responses:
         '200':
           description: Successfully Updated customer
           schema:
-            type: object
-            properties:
-              id:
-                type: integer
-              name:
-                type: string
-              email:
-                type: string
-              phone:
-                type: string
-              password:
-                type: string
-              role:
-                type: string
-                example: customer
-              token_version:
-                type: integer
-              user_uuid:
-                type: string
+            $ref: '#/definitions/UpdateCustomerResponse'
           examples:
             application/json:
               id: 1
@@ -362,10 +397,7 @@ paths:
         '200':
           description: Successfully deleted customer
           schema:
-            type: object
-            properties:
-              message:
-                type: string
+            $ref: '#/definitions/DeleteCustomerResponse'
           examples:
             application/json:
               message: 'Customer id: <customer_id>, successfully deleted.'
@@ -387,25 +419,7 @@ paths:
         '200':
           description: Successfully retrieved customer
           schema:
-            type: object
-            properties:
-              id:
-                type: integer
-              name:
-                type: string
-              email:
-                type: string
-              phone:
-                type: string
-              password:
-                type: string
-              role:
-                type: string
-                example: customer
-              token_version:
-                type: integer
-              user_uuid:
-                type: string
+            $ref: '#/definitions/Customer'
         '404':
           description: Customer with given id was not found
           schema:
@@ -870,6 +884,12 @@ paths:
       description: 'Endpoint to delete a service ticket. Requires token authentication, mechanic must be logged in to delete a service ticket.'
       security:
         - bearerAuth: []
+      parameters:
+        - in: path
+          name: ticket_id
+          required: true
+          type: integer
+          description: ID of the service ticket to update
       responses:
         '200':
           description: Successfully deleted service ticket.
@@ -897,9 +917,14 @@ paths:
       security:
         - bearerAuth: []
       parameters:
+        - in: path
+          name: ticket_id
+          required: true
+          type: integer
+          description: ID of the service ticket to update
         - in: body
           name: body
-          description: 'Information required to update a service ticket, can be one or more fields.'
+          description: 'Information required to update a service ticket''s info, can be one or more fields.'
           required: true
           schema:
             type: object
@@ -961,9 +986,14 @@ paths:
       security:
         - bearerAuth: []
       parameters:
+        - in: path
+          name: ticket_id
+          required: true
+          type: integer
+          description: ID of the service ticket to update
         - in: body
           name: body
-          description: 'Information required to update a service ticket, can be one or more fields.'
+          description: 'Information required to update a service ticket''s mechanics, can be one or more fields.'
           required: true
           schema:
             type: object
@@ -1018,9 +1048,14 @@ paths:
       security:
         - bearerAuth: []
       parameters:
+        - in: path
+          name: ticket_id
+          required: true
+          type: integer
+          description: ID of the service ticket to update
         - in: body
           name: body
-          description: 'Information required to update a service ticket, can be to say how many parts used or how many parts returned.'
+          description: 'Information required to update a service ticket''s inventory parts, fields are for used parts and returned parts.'
           required: true
           schema:
             type: object
@@ -1254,6 +1289,12 @@ paths:
       description: 'Endpoint to delete a inventory part, requires token authentication, mechanic must be logged in to delete the part from inventory.'
       security:
         - bearerAuth: []
+      parameters:
+        - name: part_id
+          in: path
+          required: true
+          type: integer
+          description: The ID of the part to retrieve
       responses:
         '200':
           description: Successfully deleted inventory part
