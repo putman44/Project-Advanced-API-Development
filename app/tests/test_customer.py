@@ -8,6 +8,8 @@ from app.tests.helper_function import login_customer
 
 class TestCustomer(unittest.TestCase):
     def setUp(self):
+        print("DB URI:", self.app.config["SQLALCHEMY_DATABASE_URI"])
+
         self.app = create_app("TestingConfig")
         self.app.testing = True
 
