@@ -7,6 +7,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      cache-key: ${{ steps.cache-deps.outputs.cache-hit }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -16,20 +19,27 @@ jobs:
         with:
           python-version: 3.12
 
+      - name: Cache dependencies
+        id: cache-deps
+        uses: actions/cache@v3
+        with:
+          path: .venv
+          key: ${{ runner.os }}-venv-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-venv-
+
       - name: Create virtual environment and install dependencies
         run: |
           python -m venv .venv
-          source .venv/bin/activate
-          pip install --upgrade pip
-          pip install -r requirements.txt
+          .venv/bin/python -m pip install --upgrade pip
+          .venv/bin/python -m pip install -r requirements.txt
 
       - name: Print debug info
         run: |
-          source .venv/bin/activate
-          echo "Python Version: $(python --version)"
+          echo "Python Version: $(.venv/bin/python --version)"
           echo "Working Directory: $(pwd)"
-          echo "Installed packages:"
-          pip list
+          echo "Contents of Working Directory: $(ls -l)"
+          echo "Contents of site-packages: $(ls -l .venv/lib/python*/site-packages)"
 
   tests:
     runs-on: ubuntu-latest
@@ -43,18 +53,17 @@ jobs:
         with:
           python-version: 3.12
 
-      - name: Restore virtual environment and install dependencies
-        run: |
-          source .venv/bin/activate
-          pip install --upgrade pip
-          pip install -r requirements.txt
+      - name: Restore virtual environment
+        uses: actions/cache@v3
+        with:
+          path: .venv
+          key: ${{ runner.os }}-venv-${{ hashFiles('requirements.txt') }}
 
       - name: Run unit tests
         run: |
           export PYTHONPATH=$(pwd)
-          export CI=true  # ensures TestingConfig uses in-memory SQLite
-          source .venv/bin/activate
-          python -m unittest discover -s app/tests -p "test_*.py" -v
+          export CI=true  # ensure TestingConfig uses in-memory SQLite
+          .venv/bin/python -m unittest discover -s app/tests -p 'test_*.py' -v
 
   deploy:
     runs-on: ubuntu-latest
@@ -68,12 +77,11 @@ jobs:
         with:
           python-version: 3.12
 
-      - name: Create virtual environment and install dependencies
-        run: |
-          python -m venv .venv
-          source .venv/bin/activate
-          python -m pip install --upgrade pip
-          python -m pip install -r requirements.txt
+      - name: Restore virtual environment
+        uses: actions/cache@v3
+        with:
+          path: .venv
+          key: ${{ runner.os }}-venv-${{ hashFiles('requirements.txt') }}
 
       - name: Deploy to Render
         uses: johnbeynon/render-deploy-action@v0.0.8
