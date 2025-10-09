@@ -13,12 +13,12 @@ paths:
           description: Information required to create a inventory part.
           required: true
           schema:
-            $ref: "#/definitions/CreateInventoryPartPayload"
+            $ref: "./base.yaml#/definitions/CreateInventoryPartPayload"
       responses:
         200:
           description: Successfully created inventory part
           schema:
-            $ref: "#/definitions/InventoryPart"
+            $ref: "./base.yaml#/definitions/InventoryPart"
           examples:
             application/json:
               id: 1
@@ -53,7 +53,7 @@ paths:
         200:
           description: Retireved all inventory parts
           schema:
-            $ref: "#/definitions/AllInventoryPartsResponse"
+            $ref: "./base.yaml#/definitions/AllInventoryPartsResponse"
           examples:
             application/json:
               case1:
@@ -85,7 +85,7 @@ paths:
         200:
           description: Retireved inventory part
           schema:
-            $ref: "#/definitions/InventoryPart"
+            $ref: "./base.yaml#/definitions/InventoryPart"
           examples:
             application/json:
               case1:
@@ -129,7 +129,7 @@ paths:
         200:
           description: "Successfully Updated inventory part"
           schema:
-            $ref: "#/definitions/InventoryPart"
+            $ref: "./base.yaml#/definitions/InventoryPart"
           examples:
             application/json:
               id: 1
@@ -185,33 +185,3 @@ paths:
                 type: string
           examples:
             message: "Invalid part id"
-
-definitions:
-  CreateInventoryPartPayload:
-    type: object
-    properties:
-      part_name:
-        type: string
-      price:
-        type: number
-        format: float
-      quantity:
-        type: integer
-
-  InventoryPart:
-    type: object
-    properties:
-      id:
-        type: integer
-      part_name:
-        type: string
-      price:
-        type: number
-        format: float
-      quantity:
-        type: integer
-
-  AllInventoryPartsResponse:
-    type: array
-    items:
-      $ref: "#/definitions/InventoryPart"

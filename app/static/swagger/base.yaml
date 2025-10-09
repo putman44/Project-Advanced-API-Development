@@ -260,6 +260,184 @@ definitions:
       message:
         type: "string"
 
+  CreateInventoryPartPayload:
+    type: object
+    properties:
+      part_name:
+        type: string
+      price:
+        type: number
+        format: float
+      quantity:
+        type: integer
+
+  InventoryPart:
+    type: object
+    properties:
+      id:
+        type: integer
+      part_name:
+        type: string
+      price:
+        type: number
+        format: float
+      quantity:
+        type: integer
+
+  AllInventoryPartsResponse:
+    type: array
+    items:
+      $ref: "#/definitions/InventoryPart"
+
+  CreateMechanicPayload:
+    type: object
+    properties:
+      name:
+        type: string
+      email:
+        type: string
+      phone:
+        type: string
+      password:
+        type: string
+      salary:
+        type: integer
+    required:
+      - name
+      - email
+      - phone
+      - salary
+      - password
+
+  CreateMechanicResponse:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      email:
+        type: string
+      role:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+      salary:
+        type: integer
+      user_uuid:
+        type: string
+      token_version:
+        type: integer
+
+  UpdateMechanicPayload:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      email:
+        type: "string"
+      phone:
+        type: "string"
+      password:
+        type: "string"
+      salary:
+        type: integer
+
+  UpdateMechanicResponse:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+      name:
+        type: "string"
+      email:
+        type: "string"
+      phone:
+        type: "string"
+      password:
+        type: "string"
+      salary:
+        type: integer
+      role:
+        type: string
+        example: mechanic
+      token_version:
+        type: integer
+      user_uuid:
+        type: string
+
+  DeleteMechanicResponse:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+
+  CreateServiceTicketPayload:
+    type: object
+    properties:
+      customer_id:
+        type: integer
+      VIN:
+        type: string
+      service_date:
+        type: string
+        format: date
+      service_desc:
+        type: string
+      mechanic_ids:
+        type: array
+        items:
+          type: integer
+
+  UpdateServiceTicketInfoPayload:
+    type: object
+    properties:
+      VIN:
+        type: string
+      service_date:
+        type: string
+        format: date
+      service_desc:
+        type: string
+
+  UpdateServiceTicketMechanicsPayload:
+    type: object
+    properties:
+      add_mechanic_ids:
+        type: array
+        items:
+          type: integer
+      remove_mechanic_ids:
+        type: array
+        items:
+          type: integer
+
+  UpdateServiceTicketPartsPayload:
+    type: object
+    properties:
+      inventory_id:
+        type: integer
+      quantity_used:
+        type: integer
+      quantity_returned:
+        type: integer
+
+  UpdateServiceTicketPartsResponse:
+    type: object
+    properties:
+      message:
+        type: string
+      ticket_id:
+        type: integer
+
+  DeleteServiceTicketResponse:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+
 paths:
   /customers/login:
     $ref: "./customers.yaml#/paths/~1customers~1login"

@@ -38,12 +38,12 @@ paths:
           description: "Information required to create a new mechanic."
           required: true
           schema:
-            $ref: "#/definitions/CreateMechanicPayload"
+            $ref: "./base.yaml#/definitions/CreateMechanicPayload"
       responses:
         201:
           description: "Successful Mechanic Creation"
           schema:
-            $ref: "#/definitions/CreateMechanicResponse"
+            $ref: "./base.yaml#/definitions/CreateMechanicResponse"
           examples:
             application/json:
               id: 1
@@ -110,12 +110,12 @@ paths:
           description: "Information required to update a mechanic, can be one or more fields."
           required: true
           schema:
-            $ref: "#/definitions/UpdateMechanicPayload"
+            $ref: "./base.yaml#/definitions/UpdateMechanicPayload"
       responses:
         200:
           description: "Successfully Updated mechanic"
           schema:
-            $ref: "#/definitions/UpdateMechanicResponse"
+            $ref: "./base.yaml#/definitions/UpdateMechanicResponse"
           examples:
             application/json:
               id: 1
@@ -153,7 +153,7 @@ paths:
         200:
           description: "Successfully Deleted mechanic"
           schema:
-            $ref: "#/definitions/DeleteMechanicResponse"
+            $ref: "./base.yaml#/definitions/DeleteMechanicResponse"
           examples:
             application/json:
               message: "Mechanic id: <mechanic_id>, successfully deleted."
@@ -218,89 +218,3 @@ paths:
           examples:
             application/json:
               message: "Mechanic not found."
-
-definitions:
-  CreateMechanicPayload:
-    type: object
-    properties:
-      name:
-        type: string
-      email:
-        type: string
-      phone:
-        type: string
-      password:
-        type: string
-      salary:
-        type: integer
-    required:
-      - name
-      - email
-      - phone
-      - salary
-      - password
-
-  CreateMechanicResponse:
-    type: object
-    properties:
-      id:
-        type: integer
-      name:
-        type: string
-      email:
-        type: string
-      role:
-        type: string
-      password:
-        type: string
-      phone:
-        type: string
-      salary:
-        type: integer
-      user_uuid:
-        type: string
-      token_version:
-        type: integer
-
-  UpdateMechanicPayload:
-    type: "object"
-    properties:
-      name:
-        type: "string"
-      email:
-        type: "string"
-      phone:
-        type: "string"
-      password:
-        type: "string"
-      salary:
-        type: integer
-
-  UpdateMechanicResponse:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-      name:
-        type: "string"
-      email:
-        type: "string"
-      phone:
-        type: "string"
-      password:
-        type: "string"
-      salary:
-        type: integer
-      role:
-        type: string
-        example: mechanic
-      token_version:
-        type: integer
-      user_uuid:
-        type: string
-
-  DeleteMechanicResponse:
-    type: "object"
-    properties:
-      message:
-        type: "string"

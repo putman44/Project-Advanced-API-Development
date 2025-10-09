@@ -13,7 +13,7 @@ paths:
           description: Information required to create a service ticket.
           required: true
           schema:
-            $ref: "#/definitions/CreateServiceTicketPayload"
+            $ref: "./base.yaml#/definitions/CreateServiceTicketPayload"
       responses:
         200:
           description: Successfully created service ticket
@@ -110,6 +110,12 @@ paths:
                 message: "There are no mechanics in the system."
 
   /service_tickets/{ticket_id}/update-info:
+    parameters:
+      - in: path
+        name: ticket_id
+        required: true
+        type: integer
+        description: ID of the service ticket to update
     put:
       tags:
         - ServiceTickets
@@ -118,17 +124,12 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - in: path
-          name: ticket_id
-          required: true
-          type: integer
-          description: ID of the service ticket to update
         - in: body
           name: body
           description: "Information required to update a service ticket's info, can be one or more fields."
           required: true
           schema:
-            $ref: "#/definitions/UpdateServiceTicketInfoPayload"
+            $ref: "./base.yaml#/definitions/UpdateServiceTicketInfoPayload"
       responses:
         200:
           description: Successfully updated service ticket
@@ -172,6 +173,12 @@ paths:
               message: Service ticket with the specified ID was not found.
 
   /service_tickets/{ticket_id}/update-mechanics:
+    parameters:
+      - in: path
+        name: ticket_id
+        required: true
+        type: integer
+        description: ID of the service ticket to update
     put:
       tags:
         - ServiceTickets
@@ -180,17 +187,12 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - in: path
-          name: ticket_id
-          required: true
-          type: integer
-          description: ID of the service ticket to update
         - in: body
           name: body
           description: "Information required to update a service ticket's mechanics, can be one or more fields."
           required: true
           schema:
-            $ref: "#/definitions/UpdateServiceTicketMechanicsPayload"
+            $ref: "./base.yaml#/definitions/UpdateServiceTicketMechanicsPayload"
       responses:
         200:
           description: Successfully updated service ticket
@@ -226,6 +228,12 @@ paths:
               message: Service ticket with the specified ID was not found.
 
   /service_tickets/{ticket_id}/update-parts:
+    parameters:
+      - in: path
+        name: ticket_id
+        required: true
+        type: integer
+        description: ID of the service ticket to update
     put:
       tags:
         - ServiceTickets
@@ -234,22 +242,17 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - in: path
-          name: ticket_id
-          required: true
-          type: integer
-          description: ID of the service ticket to update
         - in: body
           name: body
           description: "Information required to update a service ticket's inventory parts, fields are for used parts and returned parts."
           required: true
           schema:
-            $ref: "#/definitions/UpdateServiceTicketPartsPayload"
+            $ref: "./base.yaml#/definitions/UpdateServiceTicketPartsPayload"
       responses:
         200:
           description: Successfully updated service ticket
           schema:
-            $ref: "#/definitions/UpdateServiceTicketPartsResponse"
+            $ref: "./base.yaml#/definitions/UpdateServiceTicketPartsResponse"
           examples:
             application/json:
               message: "1 parts(s) added"
@@ -282,16 +285,17 @@ paths:
               message: "Service ticket with the specified ID was not found."
 
   /service_tickets/{ticket_id}:
+    parameters:
+      - in: path
+        name: ticket_id
+        type: integer
+        required: true
+        description: ID of the service ticket to retrieve
     get:
       tags:
         - ServiceTickets
       summary: Get a single service ticket by ID
-      parameters:
-        - in: path
-          name: ticket_id
-          type: integer
-          required: true
-          description: ID of the service ticket to retrieve
+
       responses:
         200:
           description: Successfully retrieved service ticket
@@ -310,17 +314,11 @@ paths:
       description: "Endpoint to delete a service ticket. Requires token authentication, mechanic must be logged in to delete a service ticket."
       security:
         - bearerAuth: []
-      parameters:
-        - in: path
-          name: ticket_id
-          required: true
-          type: integer
-          description: ID of the service ticket to update
       responses:
         200:
           description: Successfully deleted service ticket.
           schema:
-            $ref: "#/definitions/DeleteServiceTicketResponse"
+            $ref: "./base.yaml#/definitions/DeleteServiceTicketResponse"
           examples:
             application/json:
               message: "Service ticket <service_id> deleted successfully."
@@ -331,68 +329,3 @@ paths:
           examples:
             application/json:
               message: "Service ticket with the specified ID was not found"
-
-definitions:
-  CreateServiceTicketPayload:
-    type: object
-    properties:
-      customer_id:
-        type: integer
-      VIN:
-        type: string
-      service_date:
-        type: string
-        format: date
-      service_desc:
-        type: string
-      mechanic_ids:
-        type: array
-        items:
-          type: integer
-
-  UpdateServiceTicketInfoPayload:
-    type: object
-    properties:
-      VIN:
-        type: string
-      service_date:
-        type: string
-        format: date
-      service_desc:
-        type: string
-
-  UpdateServiceTicketMechanicsPayload:
-    type: object
-    properties:
-      add_mechanic_ids:
-        type: array
-        items:
-          type: integer
-      remove_mechanic_ids:
-        type: array
-        items:
-          type: integer
-
-  UpdateServiceTicketPartsPayload:
-    type: object
-    properties:
-      inventory_id:
-        type: integer
-      quantity_used:
-        type: integer
-      quantity_returned:
-        type: integer
-
-  UpdateServiceTicketPartsResponse:
-    type: object
-    properties:
-      message:
-        type: string
-      ticket_id:
-        type: integer
-
-  DeleteServiceTicketResponse:
-    type: "object"
-    properties:
-      message:
-        type: "string"

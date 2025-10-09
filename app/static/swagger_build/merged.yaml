@@ -245,6 +245,170 @@ definitions:
     properties:
       message:
         type: string
+  CreateInventoryPartPayload:
+    type: object
+    properties:
+      part_name:
+        type: string
+      price:
+        type: number
+        format: float
+      quantity:
+        type: integer
+  InventoryPart:
+    type: object
+    properties:
+      id:
+        type: integer
+      part_name:
+        type: string
+      price:
+        type: number
+        format: float
+      quantity:
+        type: integer
+  AllInventoryPartsResponse:
+    type: array
+    items:
+      $ref: '#/definitions/InventoryPart'
+  CreateMechanicPayload:
+    type: object
+    properties:
+      name:
+        type: string
+      email:
+        type: string
+      phone:
+        type: string
+      password:
+        type: string
+      salary:
+        type: integer
+    required:
+      - name
+      - email
+      - phone
+      - salary
+      - password
+  CreateMechanicResponse:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      email:
+        type: string
+      role:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+      salary:
+        type: integer
+      user_uuid:
+        type: string
+      token_version:
+        type: integer
+  UpdateMechanicPayload:
+    type: object
+    properties:
+      name:
+        type: string
+      email:
+        type: string
+      phone:
+        type: string
+      password:
+        type: string
+      salary:
+        type: integer
+  UpdateMechanicResponse:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      email:
+        type: string
+      phone:
+        type: string
+      password:
+        type: string
+      salary:
+        type: integer
+      role:
+        type: string
+        example: mechanic
+      token_version:
+        type: integer
+      user_uuid:
+        type: string
+  DeleteMechanicResponse:
+    type: object
+    properties:
+      message:
+        type: string
+  CreateServiceTicketPayload:
+    type: object
+    properties:
+      customer_id:
+        type: integer
+      VIN:
+        type: string
+      service_date:
+        type: string
+        format: date
+      service_desc:
+        type: string
+      mechanic_ids:
+        type: array
+        items:
+          type: integer
+  UpdateServiceTicketInfoPayload:
+    type: object
+    properties:
+      VIN:
+        type: string
+      service_date:
+        type: string
+        format: date
+      service_desc:
+        type: string
+  UpdateServiceTicketMechanicsPayload:
+    type: object
+    properties:
+      add_mechanic_ids:
+        type: array
+        items:
+          type: integer
+      remove_mechanic_ids:
+        type: array
+        items:
+          type: integer
+  UpdateServiceTicketPartsPayload:
+    type: object
+    properties:
+      inventory_id:
+        type: integer
+      quantity_used:
+        type: integer
+      quantity_returned:
+        type: integer
+  UpdateServiceTicketPartsResponse:
+    type: object
+    properties:
+      message:
+        type: string
+      ticket_id:
+        type: integer
+  DeleteServiceTicketResponse:
+    type: object
+    properties:
+      message:
+        type: string
 paths:
   /customers/login:
     post:
@@ -495,48 +659,12 @@ paths:
           description: Information required to create a new mechanic.
           required: true
           schema:
-            type: object
-            properties:
-              name:
-                type: string
-              email:
-                type: string
-              phone:
-                type: string
-              password:
-                type: string
-              salary:
-                type: integer
-            required:
-              - name
-              - email
-              - phone
-              - salary
-              - password
+            $ref: '#/definitions/CreateMechanicPayload'
       responses:
         '201':
           description: Successful Mechanic Creation
           schema:
-            type: object
-            properties:
-              id:
-                type: integer
-              name:
-                type: string
-              email:
-                type: string
-              role:
-                type: string
-              password:
-                type: string
-              phone:
-                type: string
-              salary:
-                type: integer
-              user_uuid:
-                type: string
-              token_version:
-                type: integer
+            $ref: '#/definitions/CreateMechanicResponse'
           examples:
             application/json:
               id: 1
@@ -600,43 +728,12 @@ paths:
           description: 'Information required to update a mechanic, can be one or more fields.'
           required: true
           schema:
-            type: object
-            properties:
-              name:
-                type: string
-              email:
-                type: string
-              phone:
-                type: string
-              password:
-                type: string
-              salary:
-                type: integer
+            $ref: '#/definitions/UpdateMechanicPayload'
       responses:
         '200':
           description: Successfully Updated mechanic
           schema:
-            type: object
-            properties:
-              id:
-                type: integer
-              name:
-                type: string
-              email:
-                type: string
-              phone:
-                type: string
-              password:
-                type: string
-              salary:
-                type: integer
-              role:
-                type: string
-                example: mechanic
-              token_version:
-                type: integer
-              user_uuid:
-                type: string
+            $ref: '#/definitions/UpdateMechanicResponse'
           examples:
             application/json:
               id: 1
@@ -673,10 +770,7 @@ paths:
         '200':
           description: Successfully Deleted mechanic
           schema:
-            type: object
-            properties:
-              message:
-                type: string
+            $ref: '#/definitions/DeleteMechanicResponse'
           examples:
             application/json:
               message: 'Mechanic id: <mechanic_id>, successfully deleted.'
@@ -751,21 +845,7 @@ paths:
           description: Information required to create a service ticket.
           required: true
           schema:
-            type: object
-            properties:
-              customer_id:
-                type: integer
-              VIN:
-                type: string
-              service_date:
-                type: string
-                format: date
-              service_desc:
-                type: string
-              mechanic_ids:
-                type: array
-                items:
-                  type: integer
+            $ref: '#/definitions/CreateServiceTicketPayload'
       responses:
         '200':
           description: Successfully created service ticket
@@ -857,16 +937,16 @@ paths:
               case2:
                 message: There are no mechanics in the system.
   '/service_tickets/{ticket_id}':
+    parameters:
+      - in: path
+        name: ticket_id
+        type: integer
+        required: true
+        description: ID of the service ticket to retrieve
     get:
       tags:
         - ServiceTickets
       summary: Get a single service ticket by ID
-      parameters:
-        - in: path
-          name: ticket_id
-          type: integer
-          required: true
-          description: ID of the service ticket to retrieve
       responses:
         '200':
           description: Successfully retrieved service ticket
@@ -884,20 +964,11 @@ paths:
       description: 'Endpoint to delete a service ticket. Requires token authentication, mechanic must be logged in to delete a service ticket.'
       security:
         - bearerAuth: []
-      parameters:
-        - in: path
-          name: ticket_id
-          required: true
-          type: integer
-          description: ID of the service ticket to update
       responses:
         '200':
           description: Successfully deleted service ticket.
           schema:
-            type: object
-            properties:
-              message:
-                type: string
+            $ref: '#/definitions/DeleteServiceTicketResponse'
           examples:
             application/json:
               message: Service ticket <service_id> deleted successfully.
@@ -909,6 +980,12 @@ paths:
             application/json:
               message: Service ticket with the specified ID was not found
   '/service_tickets/{ticket_id}/update-info':
+    parameters:
+      - in: path
+        name: ticket_id
+        required: true
+        type: integer
+        description: ID of the service ticket to update
     put:
       tags:
         - ServiceTickets
@@ -917,25 +994,12 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - in: path
-          name: ticket_id
-          required: true
-          type: integer
-          description: ID of the service ticket to update
         - in: body
           name: body
           description: 'Information required to update a service ticket''s info, can be one or more fields.'
           required: true
           schema:
-            type: object
-            properties:
-              VIN:
-                type: string
-              service_date:
-                type: string
-                format: date
-              service_desc:
-                type: string
+            $ref: '#/definitions/UpdateServiceTicketInfoPayload'
       responses:
         '200':
           description: Successfully updated service ticket
@@ -978,6 +1042,12 @@ paths:
             application/json:
               message: Service ticket with the specified ID was not found.
   '/service_tickets/{ticket_id}/update-mechanics':
+    parameters:
+      - in: path
+        name: ticket_id
+        required: true
+        type: integer
+        description: ID of the service ticket to update
     put:
       tags:
         - ServiceTickets
@@ -986,26 +1056,12 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - in: path
-          name: ticket_id
-          required: true
-          type: integer
-          description: ID of the service ticket to update
         - in: body
           name: body
           description: 'Information required to update a service ticket''s mechanics, can be one or more fields.'
           required: true
           schema:
-            type: object
-            properties:
-              add_mechanic_ids:
-                type: array
-                items:
-                  type: integer
-              remove_mechanic_ids:
-                type: array
-                items:
-                  type: integer
+            $ref: '#/definitions/UpdateServiceTicketMechanicsPayload'
       responses:
         '200':
           description: Successfully updated service ticket
@@ -1040,6 +1096,12 @@ paths:
             application/json:
               message: Service ticket with the specified ID was not found.
   '/service_tickets/{ticket_id}/update-parts':
+    parameters:
+      - in: path
+        name: ticket_id
+        required: true
+        type: integer
+        description: ID of the service ticket to update
     put:
       tags:
         - ServiceTickets
@@ -1048,34 +1110,17 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - in: path
-          name: ticket_id
-          required: true
-          type: integer
-          description: ID of the service ticket to update
         - in: body
           name: body
           description: 'Information required to update a service ticket''s inventory parts, fields are for used parts and returned parts.'
           required: true
           schema:
-            type: object
-            properties:
-              inventory_id:
-                type: integer
-              quantity_used:
-                type: integer
-              quantity_returned:
-                type: integer
+            $ref: '#/definitions/UpdateServiceTicketPartsPayload'
       responses:
         '200':
           description: Successfully updated service ticket
           schema:
-            type: object
-            properties:
-              message:
-                type: string
-              ticket_id:
-                type: integer
+            $ref: '#/definitions/UpdateServiceTicketPartsResponse'
           examples:
             application/json:
               message: 1 parts(s) added
@@ -1120,30 +1165,12 @@ paths:
           description: Information required to create a inventory part.
           required: true
           schema:
-            type: object
-            properties:
-              part_name:
-                type: string
-              price:
-                type: number
-                format: float
-              quantity:
-                type: integer
+            $ref: '#/definitions/CreateInventoryPartPayload'
       responses:
         '200':
           description: Successfully created inventory part
           schema:
-            type: object
-            properties:
-              id:
-                type: integer
-              part_name:
-                type: string
-              price:
-                type: number
-                format: float
-              quantity:
-                type: integer
+            $ref: '#/definitions/InventoryPart'
           examples:
             application/json:
               id: 1
@@ -1177,9 +1204,7 @@ paths:
         '200':
           description: Retireved all inventory parts
           schema:
-            type: array
-            items:
-              $ref: '#/paths/~1inventories/post/responses/200/schema'
+            $ref: '#/definitions/AllInventoryPartsResponse'
           examples:
             application/json:
               case1:
@@ -1209,7 +1234,7 @@ paths:
         '200':
           description: Retireved inventory part
           schema:
-            $ref: '#/paths/~1inventories/post/responses/200/schema'
+            $ref: '#/definitions/InventoryPart'
           examples:
             application/json:
               case1:
@@ -1252,7 +1277,7 @@ paths:
         '200':
           description: Successfully Updated inventory part
           schema:
-            $ref: '#/paths/~1inventories/post/responses/200/schema'
+            $ref: '#/definitions/InventoryPart'
           examples:
             application/json:
               id: 1
