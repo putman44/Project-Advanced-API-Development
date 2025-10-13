@@ -1,6 +1,8 @@
 # Mechanic Service API
 
-A RESTful API for managing customers, mechanics, inventory parts, and service tickets built with Flask, SQLAlchemy, and MySQL.
+The Mechanic Service API is a RESTful backend built with Flask, SQLAlchemy, and MySQL for managing customers, mechanics, service tickets, and inventory parts. It features JWT authentication, role-based access control (RBAC), and relational database modeling for real-world service management.
+
+With Swagger documentation, unit testing, and CI/CD integration, it’s designed for scalability, security, and maintainability — following the Flask Application Factory pattern and deployable to Render with PostgreSQL.
 
 ---
 
