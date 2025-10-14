@@ -3,6 +3,7 @@ from flask import Flask
 # from app.extensions import ma / absolute path
 from .extensions import ma, limiter, cache
 from .models import db
+from flask_cors import CORS
 from .blueprints.customers import customers_bp
 from .blueprints.mechanics import mechanics_bp
 from .blueprints.service_tickets import service_tickets_bp
@@ -20,6 +21,19 @@ swaggerui_blueprint = get_swaggerui_blueprint(
 def create_app(config_name):
     app = Flask(__name__, static_folder="static", static_url_path="/static")
     app.config.from_object(f"config.{config_name}")
+
+    # Enable CORS
+    CORS(
+        app,
+        resources={
+            r"/*": {
+                "origins": ["http://localhost:4040", "https://your-frontend-domain.com"]
+            }
+        },
+        supports_credentials=True,
+    )
+    # ↑ Replace "*" with your React app domain once deployed (for security)
+    # e.g., "https://myfrontend.vercel.app"
 
     # initialize extensions
     ma.init_app(app)
