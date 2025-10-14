@@ -25,13 +25,16 @@ def create_app(config_name):
     # Enable CORS
     CORS(
         app,
-        resources={
-            r"/*": {
-                "origins": ["http://localhost:4040", "https://your-frontend-domain.com"]
-            }
-        },
+        origins=[
+            "http://localhost:4040",
+            "https://project-advanced-api-development.onrender.com",
+            "https://your-frontend-domain.com",  # add if hosting React later
+        ],
         supports_credentials=True,
+        allow_headers=["Content-Type", "Authorization"],
+        methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     )
+
     # ↑ Replace "*" with your React app domain once deployed (for security)
     # e.g., "https://myfrontend.vercel.app"
 
