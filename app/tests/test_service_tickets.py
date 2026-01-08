@@ -48,14 +48,14 @@ class TestServiceTickets(unittest.TestCase):
             service_ticket_1 = ServiceTicket(
                 customer_id=customer.id,
                 VIN="1HGCM82633A123456",
-                service_date="2025-12-10",
+                service_date="2030-12-10",
                 service_desc="needs a tire rotation",
                 mechanics=[mechanic],
             )
             service_ticket_2 = ServiceTicket(
                 customer_id=customer.id,
                 VIN="1HGCM82633A000000",
-                service_date="2025-12-10",
+                service_date="2030-12-10",
                 service_desc="engine is stalling",
                 mechanics=[mechanic],
             )
@@ -94,7 +94,6 @@ class TestServiceTickets(unittest.TestCase):
         response = self.client.post(
             "/service_tickets/", json=service_ticket_payload, headers=headers
         )
-        print(response.status_code, response.get_json())
         self.assertEqual(response.status_code, 201)
         self.assertEqual(response.get_json()["VIN"], "1HGCM82633A123456")
 
