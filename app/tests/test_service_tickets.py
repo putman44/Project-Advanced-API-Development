@@ -79,7 +79,7 @@ class TestServiceTickets(unittest.TestCase):
         service_ticket_payload = {
             "customer_id": self.customer_id,
             "VIN": "1HGCM82633A123456",
-            "service_date": "2025-12-10",
+            "service_date": "2030-12-10",
             "service_desc": "balance all four tires",
             "mechanic_ids": [self.mechanic_id],
         }
@@ -101,7 +101,7 @@ class TestServiceTickets(unittest.TestCase):
         service_ticket_payload = {
             "customer_id": self.customer_id,
             "VIN": "1HGCM82633A1234544",
-            "service_date": "2025-12-10",
+            "service_date": "2030-12-10",
             "service_desc": "needs new tires",
             "mechanic_ids": [self.mechanic_id],
         }
@@ -207,7 +207,7 @@ class TestServiceTickets(unittest.TestCase):
     def test_update_service_ticket_info(self):
         service_ticket_info_payload = {
             "VIN": "1HGCM82633A789101",
-            "service_date": "2025-12-12",
+            "service_date": "2030-12-12",
             "service_desc": "needs new engine, needs new tires",
         }
 
@@ -229,7 +229,7 @@ class TestServiceTickets(unittest.TestCase):
     def test_update_service_ticket_info_invalid_vin(self):
         service_ticket_info_payload = {
             "VIN": "1HG",
-            "service_date": "2025-12-12",
+            "service_date": "2030-12-12",
             "service_desc": "needs new engine, needs new tires",
         }
 
