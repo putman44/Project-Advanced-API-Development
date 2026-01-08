@@ -94,7 +94,7 @@ class TestServiceTickets(unittest.TestCase):
         response = self.client.post(
             "/service_tickets/", json=service_ticket_payload, headers=headers
         )
-
+        print(response.status_code, response.get_json())
         self.assertEqual(response.status_code, 201)
         self.assertEqual(response.get_json()["VIN"], "1HGCM82633A123456")
 
