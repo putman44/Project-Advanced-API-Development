@@ -1,6 +1,6 @@
 # Mechanic Service API
 
-A RESTful API for managing customers, mechanics, inventory parts, and service tickets built with Flask, SQLAlchemy, and MySQL.
+Designed and implemented a Flask-based REST API using SQLAlchemy for database modeling, providing secure, role-based endpoints for managing customers, mechanics, inventory, and service tickets, with full Swagger UI documentation and CI/CD integration.
 
 ---
 
