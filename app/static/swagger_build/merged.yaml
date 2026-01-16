@@ -1,7 +1,19 @@
 swagger: '2.0'
 info:
   title: Your API
-  description: 'Role-based endpoints for managing customers, mechanics, inventory, and service tickets'
+  description: |
+    Role-based endpoints for managing customers, mechanics, inventory, and service tickets.
+
+    Workflow Overview:
+
+    1. Users are created with a role of either **customer** or **mechanic**.
+    2. Users authenticate using the login endpoints to receive a JWT token.
+    3. The token is required to access protected endpoints.
+    4. Customers can create and view their own service tickets.
+    5. Mechanics can view tickets assigned to them.
+    6. Mechanics can manage customers, mechanics, inventory parts, and service tickets.
+    7. Service tickets can be updated with mechanics and inventory parts used.
+    8. Inventory quantities are adjusted based on parts used or returned.
   version: 1.0.0
 host: project-advanced-api-development.onrender.com
 schemes:
