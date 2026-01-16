@@ -41,7 +41,7 @@ securityDefinitions:
     type: apiKey
     name: Authorization
     in: header
-    description: "Enter your token like: Bearer <token>"
+    description: "Enter your token like: Bearer &lt;token&gt;"
 
 definitions:
   LoginCredentials:
