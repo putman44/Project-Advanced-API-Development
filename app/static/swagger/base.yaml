@@ -1,7 +1,7 @@
 swagger: "2.0"
 info:
   title: "Your API"
-  description: "API to manage a mechanic shop"
+  description: "Role-based endpoints for managing customers, mechanics, inventory, and service tickets"
   version: "1.0.0"
 host: "project-advanced-api-development.onrender.com"
 schemes:
