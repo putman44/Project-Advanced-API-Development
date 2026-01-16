@@ -1,6 +1,6 @@
 swagger: "2.0"
 info:
-  title: "Your API"
+  title: "Production-Ready Service Management REST API"
   description: |
     Role-based endpoints for managing customers, mechanics, inventory, and service tickets.
 

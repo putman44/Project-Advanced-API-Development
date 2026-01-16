@@ -1,4 +1,4 @@
-# Project-Advanced-API-Development
+# Production-Ready Service Management REST API
 
 Designed and implemented a Flask-based REST API using SQLAlchemy for database modeling, providing secure, role-based endpoints for managing customers, mechanics, inventory, and service tickets, with full Swagger UI documentation and CI/CD integration.
 
