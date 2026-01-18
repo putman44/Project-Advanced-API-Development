@@ -19,8 +19,6 @@ Designed and implemented a Flask-based REST API using SQLAlchemy for database mo
 
 ## Features
 
-## Features
-
 - **Full CRUD Operations:** Manage customers, mechanics, inventory parts, and service tickets with create, read, update, and delete endpoints.
 - **Relational Database Support:**
   - One-to-many relationships (Customer → ServiceTicket)
